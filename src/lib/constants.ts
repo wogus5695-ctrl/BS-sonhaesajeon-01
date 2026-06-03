@@ -18,7 +18,7 @@ export const SUB_HERO_COPY = `합의금이 적정한지, 산재 불승인 사유
 보험금 부지급 사유가 타당한지 사고자료와 의무기록을 기준으로 검토합니다.`;
 
 // 3. 연락처 및 상담 시간
-export const PHONE_NUMBER = "010-4875-4972"; 
+export const PHONE_NUMBER = "010-4667-5568"; 
 export const CALL_CENTER_HOURS = "평일 09:00 - 18:00 (주말/공휴일 휴무)";
 export const SERVICE_REGION = "부산 및 경남 전 지역 방문 상담 지원";
 

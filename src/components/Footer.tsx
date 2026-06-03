@@ -93,7 +93,6 @@ export default function Footer() {
             <p>주소: {OFFICE_ADDRESS}</p>
           </div>
           <div className="flex gap-6 items-end">
-            <Link href="/sitemap-busan" className="text-brand-ivory/40 hover:text-brand-gold transition-colors font-bold underline underline-offset-4">부산 키워드 허브</Link>
             <span className="hover:text-white/50 cursor-pointer">개인정보처리방침</span>
             <span className="hover:text-white/50 cursor-pointer">이용약관</span>
           </div>
