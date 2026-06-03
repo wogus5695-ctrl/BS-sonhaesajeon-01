@@ -22,12 +22,28 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import ContactForm from '@/components/ContactForm';
 import CTAButton from '@/components/CTAButton';
-import { classifyKeyword, getDKIContent, getProblemSituationsByTheme } from '@/lib/dkiUtils';
+import { classifyKeyword, getDKIContent, getProblemSituationsByTheme, getDKIIntentData } from '@/lib/dkiUtils';
 import CaseSection from '@/components/CaseSection';
 import { commonFaqs } from '@/lib/faqData';
 import { getExpertContent } from '@/lib/expertContent';
 import { busanRegions } from '@/lib/keywordData';
 import { BRAND_NAME, PHONE_NUMBER } from '@/lib/constants';
+
+const highlightKeyword = (text: string, kw: string, highlightClass = "text-brand-gold font-medium") => {
+  if (!kw || !text.includes(kw)) return text;
+  
+  const parts = text.split(kw);
+  return (
+    <>
+      {parts.map((part, index) => (
+        <React.Fragment key={index}>
+          {part}
+          {index < parts.length - 1 && <span className={highlightClass}>{kw}</span>}
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
 
 // --- Data ---
 const mainServices = [
@@ -120,15 +136,22 @@ export default function MainPageContent({ k }: { k?: string }) {
   const keyword = hasKeyword ? rawKeyword : "";
   const theme = classifyKeyword(keyword);
   const dki = getDKIContent(keyword, theme);
+  const intentData = getDKIIntentData(keyword);
 
   const faqs = React.useMemo(() => {
     if (!hasKeyword) return commonFaqs;
+    
+    let answer = "사고 경위 자료, 진단서, 치료기록, 보험사 안내문, 약관 자료 등이 있으면 검토가 수월합니다. 자료가 부족한 경우에도 현재 상황을 먼저 확인한 뒤 필요한 서류를 안내드립니다.";
+    if (intentData.intentGroup === "consultation") {
+      answer = "기초 전화 상담을 통해 사고 유형을 파악한 뒤, 보유하신 서류(진단서, 치료 기록 등)를 기반으로 정밀 분석을 진행합니다. 이후 약관 검토와 의견서 작성 등 필요한 절차에 대해 상세히 안내해 드립니다.";
+    }
+    
     const dynamicFaq = {
-      q: `${keyword} 상담은 어떤 자료가 필요할까요?`,
-      a: "사고 경위 자료, 진단서, 치료기록, 보험사 안내문, 약관 자료 등이 있으면 검토가 수월합니다. 자료가 부족한 경우에도 현재 상황을 먼저 확인한 뒤 필요한 서류를 안내드립니다."
+      q: intentData.faqQuestion,
+      a: answer
     };
     return [dynamicFaq, ...commonFaqs];
-  }, [hasKeyword, keyword]);
+  }, [hasKeyword, intentData]);
 
   // 6 situation cards with specific lucide-react icons for visual distinction
   const situationData = [
@@ -227,9 +250,8 @@ export default function MainPageContent({ k }: { k?: string }) {
              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 break-words sm:break-keep leading-tight sm:leading-[1.3] text-white tracking-tight drop-shadow-md max-w-3xl mx-auto text-center">
               {hasKeyword ? (
                 <>
-                  {keyword},<br />
-                  <span className="text-brand-gold">그대로 동의하기 전</span><br />
-                  한 번 더 검토하세요
+                  {intentData.h1Part1}<br />
+                  <span className="text-brand-gold">{intentData.h1Part2}</span>
                 </>
               ) : (
                 <>
@@ -242,8 +264,7 @@ export default function MainPageContent({ k }: { k?: string }) {
 
             {hasKeyword ? (
               <p className="text-sm md:text-base lg:text-lg text-white/90 mb-10 leading-relaxed break-keep font-light max-w-xl mx-auto drop-shadow-sm text-center">
-                {keyword} 문제는<br />
-                재해경위, 의무기록, 약관 등을 기준으로 검토합니다.<br />
+                {highlightKeyword(intentData.heroDescription, keyword, "text-brand-lightGold font-semibold")}<br />
                 <span className="underline underline-offset-4 decoration-white/50">보험사 안내나 산재 판단에 동의하기 전,</span><br />
                 보상 쟁점을 객관적으로 확인해드립니다.
               </p>
@@ -429,7 +450,7 @@ export default function MainPageContent({ k }: { k?: string }) {
               <p className="text-brand-muted text-base md:text-lg mb-8 break-keep leading-relaxed font-light font-medium">
                 {hasKeyword ? (
                   <>
-                    {keyword}는 사건 유형에 따라 확인해야 할 자료와 판단 기준이 달라집니다.<br />
+                    {highlightKeyword(intentData.sectionDescription, keyword)}<br />
                     합의서 서명이나 보험사 안내에 동의하기 전, 보유한 서류를 기준으로 먼저 검토하는 것이 안전합니다.
                   </>
                 ) : (
@@ -506,10 +527,7 @@ export default function MainPageContent({ k }: { k?: string }) {
           <SectionTitle 
             label="검토 분야"
             title="사고 유형별로 필요한 검토가 다릅니다" 
-            sub={hasKeyword 
-              ? `${keyword}를 포함한 교통사고, 산재, 후유장해, 보험금 분쟁은 각 사건별로 필요한 검토 자료가 다릅니다.<br />내 사건에 맞는 항목을 기준으로 보상 가능성과 산정 기준을 확인합니다.`
-              : "교통사고, 산재, 후유장해, 보험금 분쟁은 확인해야 할 자료와 산정 기준이 다릅니다.<br />내 사건에 맞는 항목을 기준으로 보상 가능성을 검토합니다."
-            } 
+            sub="교통사고, 산재, 후유장해, 보험금 분쟁은 각 사건별로 필요한 검토 자료가 다릅니다.<br />내 사건에 맞는 항목을 기준으로 보상 가능성과 산정 기준을 확인합니다." 
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {mainServices.map((service, idx) => {
@@ -655,7 +673,7 @@ export default function MainPageContent({ k }: { k?: string }) {
               </h2>
               <p className="text-white/70 text-base md:text-lg mb-10 leading-relaxed break-keep">
                 {hasKeyword ? (
-                  `${keyword} 문제로 합의, 부지급, 산재 판단이 고민된다면 보유한 서류 기준으로 먼저 검토를 요청해보세요.`
+                  highlightKeyword(intentData.ctaSentence, keyword, "text-brand-gold font-semibold")
                 ) : (
                   "보험사 안내가 맞는지, 제시된 금액이 적정한지는 진단서·치료기록·약관·사고경위를 함께 봐야 판단할 수 있습니다."
                 )}
