@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   description: "의무기록과 약관을 기준으로 보상 쟁점을 객관적으로 분석하는 부산 손해사정 전문가 그룹입니다. 부산 전 지역 교통사고 합의금, 산재 보상금, 보험금 면책/삭감 분쟁 무상 서류 검토.",
   keywords: "부산 손해사정사, 부산 교통사고 손해사정, 부산 산재 손해사정, 부산 보험금 부지급, 후유장해 보험금, 손해액 산정",
   verification: {
-    google: "deundeunsh_busan_google_verification_placeholder",
+    google: "D_gbNloLb3yAvonNXXOGgpq2ZjTi0J-CzdqDaOTB6cA",
     // 네이버 서치어드바이저 소유권 확인 태그 (발급 완료)
     other: {
       "naver-site-verification": "c99cc3ca695af2802f8498ee12e65f2576e3dbc9",
