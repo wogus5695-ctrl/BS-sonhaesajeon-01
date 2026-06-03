@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     url: BASE_URL,
     images: [
       {
-        url: `${BASE_URL}/og-image.png`,
+        url: `${BASE_URL}/og-image.png?v=2`,
         width: 1200,
         height: 630,
         alt: "부산 손해사정 손해액 정밀 검토",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `부산 손해사정 | ${BRAND_SLOGAN}`,
     description: "보험사 통보 전, 약관 규정과 치료 기록에 맞는 적합한 범위를 점검하세요.",
-    images: [`${BASE_URL}/og-image.png`],
+    images: [`${BASE_URL}/og-image.png?v=2`],
   },
   icons: {
     icon: [

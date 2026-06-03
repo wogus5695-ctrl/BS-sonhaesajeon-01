@@ -55,7 +55,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
       url: `${baseUrl}/issue/${encodeURIComponent(params.slug)}`,
       images: [
         {
-          url: `${baseUrl}/og-image.png`,
+          url: `${baseUrl}/og-image.png?v=2`,
           width: 1200,
           height: 630,
           alt: `${brand} 전문가 상담`,
@@ -66,7 +66,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
       card: "summary_large_image",
       title: dki.metaTitle,
       description: dki.metaDesc,
-      images: [`${baseUrl}/og-image.png`],
+      images: [`${baseUrl}/og-image.png?v=2`],
     },
   };
 }
@@ -91,7 +91,7 @@ export default function Page({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": BRAND_NAME,
-    "image": `${baseUrl}/og-image.png`,
+    "image": `${baseUrl}/og-image.png?v=2`,
     "@id": baseUrl,
     "url": baseUrl,
     "telephone": PHONE_NUMBER,

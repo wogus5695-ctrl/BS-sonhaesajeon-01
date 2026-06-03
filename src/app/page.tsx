@@ -54,7 +54,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       url: BASE_URL,
       images: [
         {
-          url: `${BASE_URL}/og-image.png`,
+          url: `${BASE_URL}/og-image.png?v=2`,
           width: 1200,
           height: 630,
           alt: "부산 맞춤형 손해사정 상담",
@@ -65,7 +65,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       card: "summary_large_image",
       title,
       description,
-      images: [`${BASE_URL}/og-image.png`],
+      images: [`${BASE_URL}/og-image.png?v=2`],
     },
   };
 }
@@ -92,7 +92,7 @@ export default function Page({ searchParams }: PageProps) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": BRAND_NAME,
-    "image": `${baseUrl}/og-image.png`,
+    "image": `${baseUrl}/og-image.png?v=2`,
     "@id": baseUrl,
     "url": baseUrl,
     "telephone": PHONE_NUMBER,
