@@ -25,7 +25,7 @@ export const classifyKeyword = (k: string): DKIType => {
   }
   
   // 2. 교통사고 관련 분류
-  if (["교통사고", "합의금", "과실비율", "향후치료비", "휴업손해", "오토바이 사고", "이륜차", "골절 합의금", "디스크 합의금"].some(key => kw.includes(key))) {
+  if (["교통사고", "합의금", "과실비율", "향후치료비", "휴업손해", "오토바이 사고", "이륜차", "골절 합의금", "디스크 합의금", "12대 중과실", "중과실"].some(key => kw.includes(key))) {
     return "traffic";
   }
 
