@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-primary: 10 35 28;    /* #0A231C (Dark Forest Green) */
+    --brand-deep: 19 61 49;       /* #133D31 (Deep Forest Green) */
+    --brand-accent: 197 168 128;   /* #C5A880 (Sand Gold) */
+    --brand-gold: 197 168 128;     /* #C5A880 (Sand Gold) */
+    --brand-charcoal: 28 36 33;   /* #1C2421 (Deep Charcoal Forest) */
+    --brand-ivory: 247 245 240;   /* #F7F5F0 (Warm Sand Background) */
+    --brand-line: 230 226 216;    /* #E6E2D8 (Warm Sand Border Line) */
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply text-brand-charcoal bg-brand-ivory selection:bg-brand-gold/20 antialiased overflow-x-hidden;
+    font-family: var(--font-score-dream), var(--font-inter), sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-black tracking-tight break-keep text-brand-primary;
+  }
+
+  p {
+    @apply leading-relaxed break-keep;
+  }
+
+  a, button {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-py {
+    @apply py-16 md:py-24;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-4 bg-brand-gold hover:bg-brand-lightGold text-white font-bold rounded-xl shadow-md transition-all active:scale-95;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-8 py-4 border-2 border-brand-gold text-brand-gold font-bold rounded-xl transition-all hover:bg-brand-gold hover:text-white active:scale-95;
+  }
+
+  .card-premium {
+    @apply bg-white p-8 rounded-2xl border border-brand-line hover:border-brand-gold/50 hover:shadow-lg transition-all duration-300;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl;
+  }
+}
+
+/* Custom Scrollbar styled matching the Warm Sand skin */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F5F0; /* Warm Sand Off-White */
+}
+::-webkit-scrollbar-thumb {
+  background: #E6E2D8; /* Warm Sand Border Line */
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A880; /* Sand Gold Accent */
+}
