@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import MainPageContent from "@/components/MainPageContent";
 import { commonFaqs } from "@/lib/faqData";
-import { classifyKeyword, getDKIContent } from "@/lib/dkiUtils";
+import { classifyKeyword, getDKIContent, getDKIIntentData } from "@/lib/dkiUtils";
 import { 
   BASE_URL, 
   BRAND_NAME, 
@@ -136,10 +136,21 @@ export default function Page({ params }: PageProps) {
   };
 
   // C. 화면의 FAQ 데이터와 100% 동기화된 FAQPage 스키마 적용
+  const pageFaqs = [];
+  if (keyword.length > 0) {
+    const intentData = getDKIIntentData(keyword);
+    let dynamicFaqAnswer = "사고 경위 자료, 진단서, 치료기록, 보험사 안내문, 약관 자료 등이 있으면 검토가 수월합니다. 자료가 부족한 경우에도 현재 상황을 먼저 확인한 뒤 필요한 서류를 안내드립니다.";
+    if (intentData.intentGroup === "consultation") {
+      dynamicFaqAnswer = "기초 전화 상담을 통해 사고 유형을 파악한 뒤, 보유하신 서류(진단서, 치료 기록 등)를 기반으로 정밀 분석을 진행합니다. 이후 약관 검토와 의견서 작성 등 필요한 절차에 대해 상세히 안내해 드립니다.";
+    }
+    pageFaqs.push({ q: intentData.faqQuestion, a: dynamicFaqAnswer });
+  }
+  pageFaqs.push(...commonFaqs);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": commonFaqs.map(faq => ({
+    "mainEntity": pageFaqs.map(faq => ({
       "@type": "Question",
       "name": faq.q,
       "acceptedAnswer": {
