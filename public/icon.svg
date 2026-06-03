@@ -1,29 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <!-- Rounded Navy Background -->
-  <rect x="0" y="0" width="512" height="512" rx="120" ry="120" fill="#0F2742" />
+  <!-- Rounded Background with site's Primary Color (#0A231C) -->
+  <rect x="0" y="0" width="512" height="512" rx="120" ry="120" fill="#0A231C" />
   
-  <!-- Group for text "든든" in stylized block segments -->
-  <g fill="#1BA39C">
-    <!-- Left Character "든" -->
-    <!-- ㄷ -->
-    <rect x="85" y="100" width="140" height="26" />
-    <rect x="85" y="100" width="26" height="110" />
-    <rect x="85" y="184" width="140" height="26" />
-    <!-- ㅡ -->
-    <rect x="71" y="243" width="168" height="26" />
-    <!-- ㄴ -->
-    <rect x="85" y="302" width="26" height="110" />
-    <rect x="85" y="386" width="140" height="26" />
+  <!-- Group for text "SH" in premium styled Sand Gold (#C5A880) -->
+  <g fill="#C5A880">
+    <!-- Character 'S' -->
+    <!-- Top horizontal bar -->
+    <rect x="86" y="126" width="150" height="30" rx="4" ry="4" />
+    <!-- Left vertical top bar -->
+    <rect x="86" y="126" width="30" height="130" rx="4" ry="4" />
+    <!-- Middle horizontal bar -->
+    <rect x="86" y="241" width="150" height="30" rx="4" ry="4" />
+    <!-- Right vertical bottom bar -->
+    <rect x="206" y="256" width="30" height="130" rx="4" ry="4" />
+    <!-- Bottom horizontal bar -->
+    <rect x="86" y="356" width="150" height="30" rx="4" ry="4" />
     
-    <!-- Right Character "든" -->
-    <!-- ㄷ -->
-    <rect x="287" y="100" width="140" height="26" />
-    <rect x="287" y="100" width="26" height="110" />
-    <rect x="287" y="184" width="140" height="26" />
-    <!-- ㅡ -->
-    <rect x="273" y="243" width="168" height="26" />
-    <!-- ㄴ -->
-    <rect x="287" y="302" width="26" height="110" />
-    <rect x="287" y="386" width="140" height="26" />
+    <!-- Character 'H' -->
+    <!-- Left vertical bar -->
+    <rect x="276" y="126" width="30" height="260" rx="4" ry="4" />
+    <!-- Right vertical bar -->
+    <rect x="396" y="126" width="30" height="260" rx="4" ry="4" />
+    <!-- Middle horizontal bar -->
+    <rect x="306" y="241" width="90" height="30" rx="4" ry="4" />
   </g>
 </svg>
