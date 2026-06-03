@@ -31,9 +31,9 @@ export const metadata: Metadata = {
   keywords: "부산 손해사정사, 부산 교통사고 손해사정, 부산 산재 손해사정, 부산 보험금 부지급, 후유장해 보험금, 손해액 산정",
   verification: {
     google: "deundeunsh_busan_google_verification_placeholder",
-    // 네이버 서치어드바이저 소유권 확인 태그 (추후 확정 시 교체)
+    // 네이버 서치어드바이저 소유권 확인 태그 (발급 완료)
     other: {
-      "naver-site-verification": "deundeunsh_busan_verification_placeholder",
+      "naver-site-verification": "c99cc3ca695af2802f8498ee12e65f2576e3dbc9",
     },
   },
   openGraph: {
