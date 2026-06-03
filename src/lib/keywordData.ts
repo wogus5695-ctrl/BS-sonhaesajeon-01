@@ -69,18 +69,22 @@ const generatedKeywords: KeywordItem[] = [];
 
 // 지명 변형 정교화 처리
 const getVariantRegion = (region: string): string => {
-  // "부산진구"처럼 이미 '구'가 완벽하게 끝나는 경우 그대로 유지
-  if (region.endsWith("구") || region.endsWith("군")) {
-    return region;
+  let result = region;
+  if (!region.endsWith("구") && !region.endsWith("군")) {
+    if (region === "부산") {
+      result = "부산";
+    } else if (region === "기장") {
+      result = "기장군";
+    } else {
+      result = region + "구";
+    }
   }
-  // "해운대", "동래", "사하" 등 '구'가 탈락한 형태 -> "해운대구", "동래구" 등으로 결합
-  if (region === "부산") {
-    return "부산";
+
+  // 남구/북구/서구/동구/중구/강서구 에 대해 "부산 " 접두사 추가
+  if (["남구", "북구", "서구", "동구", "중구", "강서구"].includes(result)) {
+    return "부산 " + result;
   }
-  if (region === "기장") {
-    return "기장군";
-  }
-  return region + "구";
+  return result;
 };
 
 // A. 136개 기본 지역 조합 생성 (17개 지역 * 8개 기본 서비스)

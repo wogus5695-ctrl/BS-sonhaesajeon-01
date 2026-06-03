@@ -50,8 +50,14 @@ export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
   const sortedRegions = [...busanRegions].map(r => {
     if (r === "부산") return "부산";
     if (r === "기장") return "기장군";
-    if (r.endsWith("구") || r.endsWith("군")) return r;
-    return r + "구";
+    let mapped = r;
+    if (!r.endsWith("구") && !r.endsWith("군")) {
+      mapped = r + "구";
+    }
+    if (["남구", "북구", "서구", "동구", "중구", "강서구"].includes(mapped)) {
+      return "부산 " + mapped;
+    }
+    return mapped;
   }).sort((a, b) => b.length - a.length);
 
   let matchedRegion = "";
