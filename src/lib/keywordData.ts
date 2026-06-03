@@ -87,44 +87,58 @@ const getVariantRegion = (region: string): string => {
   return result;
 };
 
-// A. 136개 기본 지역 조합 생성 (17개 지역 * 8개 기본 서비스)
-busanRegions.forEach((region) => {
-  const variant = getVariantRegion(region);
-  basicServices.forEach((service) => {
-    const label = `${variant} ${service}`;
-    const slug = label.trim().replace(/\s+/g, '-');
-    generatedKeywords.push({
-      label,
-      slug,
-      category: "부산 지역 상담",
-      region: variant,
-      service,
-      intent: "지역 상담",
-      url: `/issue/${encodeURIComponent(slug)}`
-    });
-  });
-});
+const noGuRegions = ["해운대", "동래", "사하", "사상", "금정", "연제", "수영", "기장", "영도"];
 
-// B. 64개 산재 특화 조합 생성 (8개 특화 지역 * 8개 산재 서비스)
-industrialRegions.forEach((region) => {
-  const variant = getVariantRegion(region);
-  industrialServices.forEach((service) => {
-    const label = `${variant} ${service}`;
-    const slug = label.trim().replace(/\s+/g, '-');
-    
-    // 기본조합과 중복 제거 방지
-    const isDuplicate = generatedKeywords.some(k => k.label === label);
-    if (!isDuplicate) {
+// A. 기본 지역 조합 생성
+busanRegions.forEach((region) => {
+  const variants = [getVariantRegion(region)];
+  if (noGuRegions.includes(region)) {
+    variants.push(region); // '구'/'군'이 생략된 버전 추가
+  }
+
+  variants.forEach((variant) => {
+    basicServices.forEach((service) => {
+      const label = `${variant} ${service}`;
+      const slug = label.trim().replace(/\s+/g, '-');
       generatedKeywords.push({
         label,
         slug,
-        category: "산재 특화 지역 상담",
+        category: "부산 지역 상담",
         region: variant,
         service,
         intent: "지역 상담",
         url: `/issue/${encodeURIComponent(slug)}`
       });
-    }
+    });
+  });
+});
+
+// B. 산재 특화 조합 생성 (8개 특화 지역 * 8개 산재 서비스)
+industrialRegions.forEach((region) => {
+  const variants = [getVariantRegion(region)];
+  if (noGuRegions.includes(region)) {
+    variants.push(region); // '구'/'군'이 생략된 버전 추가
+  }
+
+  variants.forEach((variant) => {
+    industrialServices.forEach((service) => {
+      const label = `${variant} ${service}`;
+      const slug = label.trim().replace(/\s+/g, '-');
+      
+      // 기본조합과 중복 제거 방지
+      const isDuplicate = generatedKeywords.some(k => k.label === label);
+      if (!isDuplicate) {
+        generatedKeywords.push({
+          label,
+          slug,
+          category: "산재 특화 지역 상담",
+          region: variant,
+          service,
+          intent: "지역 상담",
+          url: `/issue/${encodeURIComponent(slug)}`
+        });
+      }
+    });
   });
 });
 

@@ -150,18 +150,31 @@ export default function MainPageContent({ k }: { k?: string }) {
   // Find matched region for badge and trust points
   let matchedRegion = "부산·경남";
   if (hasKeyword) {
-    const sortedRegions = [...busanRegions].map(r => {
-      if (r === "부산") return "부산";
-      if (r === "기장") return "기장군";
+    const noGuRegions = ["해운대", "동래", "사하", "사상", "금정", "연제", "수영", "기장", "영도"];
+    const regions: string[] = [];
+    
+    busanRegions.forEach(r => {
+      if (r === "부산") {
+        regions.push("부산");
+        return;
+      }
       let mapped = r;
       if (!r.endsWith("구") && !r.endsWith("군")) {
         mapped = r + "구";
       }
       if (["남구", "북구", "서구", "동구", "중구", "강서구"].includes(mapped)) {
-        return "부산 " + mapped;
+        regions.push("부산 " + mapped);
+      } else {
+        regions.push(mapped);
       }
-      return mapped;
-    }).sort((a, b) => b.length - a.length);
+
+      // "해운대" 등 '구'/'군' 생략 키워드 매칭 지원을 위해 추가 등록
+      if (noGuRegions.includes(r)) {
+        regions.push(r);
+      }
+    });
+
+    const sortedRegions = regions.sort((a, b) => b.length - a.length);
 
     for (const r of sortedRegions) {
       if (keyword.startsWith(r)) {
