@@ -126,7 +126,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
             onChange={handleChange}
             placeholder="이름을 입력해주세요"
             required
-            className="w-full px-4.5 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold"
+            className="w-full px-4 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold"
           />
         </div>
         <div>
@@ -142,7 +142,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
             onChange={handleChange}
             placeholder="010-0000-0000"
             required
-            className="w-full px-4.5 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold"
+            className="w-full px-4 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold"
           />
         </div>
       </div>
@@ -160,7 +160,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
               name="accidentType"
               value={formData.accidentType}
               onChange={handleChange}
-              className="w-full px-4.5 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold appearance-none cursor-pointer"
+              className="w-full pl-4 pr-10 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold appearance-none cursor-pointer"
             >
               <option value="교통사고">교통사고</option>
               <option value="12대 중과실 교통사고">12대 중과실 교통사고</option>
@@ -188,7 +188,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-4.5 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold appearance-none cursor-pointer"
+              className="w-full pl-4 pr-10 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold appearance-none cursor-pointer"
             >
               <option value="보험사 합의 제안 전">보험사 합의 제안 전</option>
               <option value="보험사 합의 제안 받음">보험사 합의 제안 받음</option>
@@ -251,7 +251,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
           value={formData.region}
           onChange={handleChange}
           placeholder="예: 부산 해운대구, 경남 김해시 등"
-          className="w-full px-4.5 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold"
+          className="w-full px-4 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold"
         />
       </div>
 
@@ -274,7 +274,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
 예: 산재 불승인 통보를 받았고 재검토가 가능한지 알고 싶습니다.
 예: 치료 후 통증이 남아 후유장해 보상 검토가 필요합니다.`}
           required
-          className="w-full px-4.5 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold resize-none leading-relaxed"
+          className="w-full px-4 py-3.5 bg-brand-ivory/50 border border-brand-line rounded-xl focus:outline-none focus:border-brand-deep focus:bg-white transition-all text-xs font-bold resize-none leading-relaxed"
         ></textarea>
       </div>
 
