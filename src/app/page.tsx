@@ -33,8 +33,8 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   const keyword = decodedK.replace(/-/g, ' ').replace(/[<>]/g, '').trim();
 
   const title = keyword 
-    ? `${keyword} 상담 | ${BRAND_NAME}` 
-    : `${BRAND_NAME} | ${BRAND_SLOGAN}`;
+    ? `${keyword} 상담 | 부산 손해사정` 
+    : `부산 손해사정 | ${BRAND_SLOGAN}`;
 
   const description = keyword
     ? `${keyword} 관련 합의금, 산재, 후유장해, 보험금 분쟁 자료를 기준으로 손해사정 검토를 지원합니다.`
@@ -48,7 +48,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       canonical: BASE_URL,
     },
     openGraph: {
-      title: keyword ? `${keyword} 상담 | 부산 손해사정 전문 상담` : `${BRAND_NAME} | 부산 손해사정 전문 상담`,
+      title: keyword ? `${keyword} 상담 | 부산 손해사정 전문 상담` : `부산 손해사정 | 부산 손해사정 전문 상담`,
       description: keyword ? `${keyword} 관련 합의금, 산재, 후유장해, 보험금 분쟁 자료를 기준으로 손해사정 검토를 지원합니다.` : "보험사 출신 전문가가 의무기록과 개별자료를 기준으로 철저하게 분석하고 확인해 드립니다.",
       type: "website",
       url: BASE_URL,
@@ -57,7 +57,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
           url: `${BASE_URL}/og-image.png`,
           width: 1200,
           height: 630,
-          alt: `${BRAND_NAME} 맞춤형 손해사정 상담`,
+          alt: "부산 맞춤형 손해사정 상담",
         },
       ],
     },

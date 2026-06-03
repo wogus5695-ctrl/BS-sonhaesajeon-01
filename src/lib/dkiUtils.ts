@@ -44,7 +44,7 @@ export const classifyKeyword = (k: string): DKIType => {
 
 export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
   const k = keyword || "손해액과 보험금 산정";
-  const brand = BRAND_NAME;
+  const brand = "부산 손해사정";
 
   // 지명 결합 매칭 분석 (가장 긴 명칭 순서대로 대조)
   const sortedRegions = [...busanRegions].map(r => {

@@ -3,7 +3,7 @@ import { BASE_URL, BRAND_NAME, BRAND_SLOGAN } from '@/lib/constants';
 
 export async function GET() {
   const baseUrl = BASE_URL;
-  const brand = BRAND_NAME;
+  const brand = "부산 손해사정";
   const slogan = BRAND_SLOGAN;
   const now = new Date().toUTCString();
   const keywords = getAllKeywords();

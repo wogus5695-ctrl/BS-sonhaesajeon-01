@@ -20,7 +20,7 @@ interface PageProps {
 // A. 200 OK 직접 렌더링에 맞는 고유 메타데이터 빌더 (크롤러의 정식 수집 색인 허용)
 export function generateMetadata({ params }: PageProps): Metadata {
   const baseUrl = BASE_URL;
-  const brand = BRAND_NAME;
+  const brand = "부산 손해사정";
 
   let decodedSlug = "";
   try {
