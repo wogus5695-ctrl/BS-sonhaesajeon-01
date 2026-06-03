@@ -33,7 +33,7 @@ export const OFFICE_LONGITUDE = 129.0756;
 export const OFFICE_POSTAL_CODE = "47545";
 
 // 6. 도메인 설정 (Canonical 및 Sitemap.xml 배포 주소)
-export const BASE_URL = "https://www.deundeunsh-busan.co.kr"; 
+export const BASE_URL = "https://www.bssonhaesajeon.co.kr"; 
 
 // 7. 구글 스프레드시트 연동 접수처 API URL
 export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_IzJ-x7OA9vNlnFhGw_wlRiRXUegKd9Mf8GzP4ruz5ez4HZklW8lOgBgKTXMC6_DfbA/exec";
