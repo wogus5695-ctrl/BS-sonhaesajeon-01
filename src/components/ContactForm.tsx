@@ -67,7 +67,19 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
       return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
     };
 
+    let clientIp = 'unknown';
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      if (ipResponse.ok) {
+        const ipData = await ipResponse.json();
+        clientIp = ipData.ip || 'unknown';
+      }
+    } catch (ipError) {
+      console.warn('Failed to fetch client IP:', ipError);
+    }
+
     const submissionData = {
+      token: SECRET_TOKEN,
       name: formData.name,
       phone: formData.phone,
       caseType: formData.accidentType,
@@ -79,7 +91,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
       pageUrl: typeof window !== 'undefined' ? window.location.href : '',
       keyword: currentKeyword,
       device: detectDevice(),
-      SECRET_TOKEN: SECRET_TOKEN
+      ip: clientIp
     };
 
     try {

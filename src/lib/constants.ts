@@ -39,4 +39,4 @@ export const BASE_URL = "https://www.bssonhaesajeon.co.kr";
 export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzURn6G0gd2FrfOiOF--VCgwz-h_J6q6e1HDviPCnbsUDSFt5-Y-7xcboUCafOdpx3Z/exec";
 
 // 8. 구글 스프레드시트 검증용 SECRET_TOKEN (사용자가 Apps Script에 설정한 토큰값으로 변경하여 사용)
-export const SECRET_TOKEN = "YOUR_SECRET_TOKEN";
+export const SECRET_TOKEN = "bs-sonsa-2026";
