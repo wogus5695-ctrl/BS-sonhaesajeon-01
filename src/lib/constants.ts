@@ -23,8 +23,8 @@ export const CALL_CENTER_HOURS = "평일 09:00 - 18:00 (주말/공휴일 휴무)
 export const SERVICE_REGION = "부산 및 경남 전 지역 방문 상담 지원";
 
 // 4. 사업자 정보 및 주소 (부산 지역성 반영 및 연제구청/시청 근처 가상 매핑)
-export const REPRESENTATIVE_NAME = "이영민"; 
-export const BUSINESS_REGISTRATION_NUMBER = "899-10-02969"; 
+export const REPRESENTATIVE_NAME = "김재현"; 
+export const BUSINESS_REGISTRATION_NUMBER = "405-15-02677"; 
 export const OFFICE_ADDRESS = "부산광역시 연제구 중앙대로 1001"; // 부산 연제구 임시 주소
 
 // 5. 지도 매핑 및 ProfessionalService JSON-LD 위경도 좌표 (부산 중심 좌표)
