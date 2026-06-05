@@ -36,4 +36,7 @@ export const OFFICE_POSTAL_CODE = "47545";
 export const BASE_URL = "https://www.bssonhaesajeon.co.kr"; 
 
 // 7. 구글 스프레드시트 연동 접수처 API URL
-export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_IzJ-x7OA9vNlnFhGw_wlRiRXUegKd9Mf8GzP4ruz5ez4HZklW8lOgBgKTXMC6_DfbA/exec";
+export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzURn6G0gd2FrfOiOF--VCgwz-h_J6q6e1HDviPCnbsUDSFt5-Y-7xcboUCafOdpx3Z/exec";
+
+// 8. 구글 스프레드시트 검증용 SECRET_TOKEN (사용자가 Apps Script에 설정한 토큰값으로 변경하여 사용)
+export const SECRET_TOKEN = "YOUR_SECRET_TOKEN";

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Phone, Check, ShieldAlert } from 'lucide-react';
-import { GOOGLE_SCRIPT_URL, PHONE_NUMBER } from '@/lib/constants';
+import { GOOGLE_SCRIPT_URL, PHONE_NUMBER, SECRET_TOKEN } from '@/lib/constants';
 
 const documentOptions = [
   "진단서",
@@ -62,21 +62,24 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
 
     setIsSubmitting(true);
 
-    // Append documents info to content to ensure it is logged regardless of Google Sheet column structure
-    const docsString = formData.documents.length > 0 ? `[보유서류: ${formData.documents.join(', ')}] ` : '[보유서류: 아직 준비 전] ';
-    const enrichedContent = docsString + formData.content;
+    const detectDevice = () => {
+      if (typeof window === 'undefined') return 'desktop';
+      return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+    };
 
     const submissionData = {
       name: formData.name,
       phone: formData.phone,
-      region: formData.region,
-      accidentType: formData.accidentType,
+      caseType: formData.accidentType,
       status: formData.status,
-      content: enrichedContent,
       documents: formData.documents.join(', '),
-      consent: formData.consent,
-      currentKeyword,
-      submittedAt: new Date().toLocaleString('ko-KR'),
+      region: formData.region,
+      message: formData.content,
+      privacyAgree: formData.consent,
+      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+      keyword: currentKeyword,
+      device: detectDevice(),
+      SECRET_TOKEN: SECRET_TOKEN
     };
 
     try {
@@ -89,7 +92,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
         body: JSON.stringify(submissionData),
       });
 
-      alert('보상 서류 검토 요청이 완료되었습니다. 확인 후 담당 손해사정사가 빠르게 유선으로 연락해 검토 방향을 공유해 드리겠습니다.');
+      alert('신청이 접수되었습니다. 확인 후 연락드리겠습니다.');
       
       setFormData({
         name: '',
@@ -103,7 +106,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
       });
     } catch (error) {
       console.error('API 송출 중 오류:', error);
-      alert('데이터 전송 도중 일시적인 오류가 발생했습니다. 대표번호로 유선 연락 주시면 즉시 서류 검토를 진행해 드리겠습니다.');
+      alert('접수 중 오류가 발생했습니다. 전화 상담 또는 카카오톡 상담을 이용해주세요.');
     } finally {
       setIsSubmitting(false);
     }
@@ -323,7 +326,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
             isSubmitting ? "bg-slate-300 cursor-not-allowed text-white/50 border-transparent hover:text-white/50 hover:bg-slate-300 hover:border-transparent" : "shadow-brand-primary/10"
           )}
         >
-          {isSubmitting ? "보상 서류 검토 요청 중..." : "보상 서류 검토 요청하기"}
+          {isSubmitting ? "접수 중..." : "보상 서류 검토 요청하기"}
         </button>
 
         <a 
