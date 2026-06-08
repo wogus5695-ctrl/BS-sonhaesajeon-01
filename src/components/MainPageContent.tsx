@@ -80,7 +80,7 @@ const mainServices = [
       "약관상 지급 기준"
     ],
     tag: "부지급·감액·면책",
-    buttonText: "보험금 분쟁 상담하기",
+    buttonText: "보험금 부지급 사유 확인",
     icon: ShieldCheck
   },
   {
@@ -92,7 +92,7 @@ const mainServices = [
       "장해율 및 보상 범위"
     ],
     tag: "현장 사고·직업병",
-    buttonText: "산재·직업병 검토하기",
+    buttonText: "업무 관련성 검토받기",
     icon: Building2
   }
 ];
@@ -376,13 +376,13 @@ export default function MainPageContent({ k }: { k?: string }) {
               {/* Lower CTA */}
               <div className="mt-8 pt-8 border-t border-brand-line flex flex-col sm:flex-row items-center justify-between gap-6">
                 <p className="text-sm font-semibold text-brand-charcoal text-center sm:text-left break-keep max-w-md">
-                  “위 상황 중 하나라도 해당된다면, 서류를 먼저 확인해보는 것이 안전합니다.”
+                  해당되는 상황이 있다면, 서명 전 먼저 서류 검토를 받아보세요.
                 </p>
                 <a 
                   href="#contact" 
                   className="px-8 py-4 bg-brand-gold hover:bg-brand-lightGold text-white font-bold text-base rounded-xl shadow-lg shadow-brand-gold/20 active:scale-[0.98] transition-all text-center shrink-0 w-full sm:w-auto"
                 >
-                  내 상황 검토 요청하기
+                  내 사건 서류 검토 요청
                 </a>
               </div>
             </div>
@@ -447,16 +447,15 @@ export default function MainPageContent({ k }: { k?: string }) {
                 산정 근거부터 확인하세요
               </h2>
               
-              <p className="text-brand-muted text-base md:text-lg mb-8 break-keep leading-relaxed font-light font-medium">
+              <p className="text-brand-muted text-base md:text-lg mb-8 break-keep leading-relaxed font-medium">
                 {hasKeyword ? (
                   <>
-                    {highlightKeyword(intentData.sectionDescription, keyword)}<br />
-                    합의서 서명이나 보험사 안내에 동의하기 전, 보유한 서류를 기준으로 먼저 검토하는 것이 안전합니다.
+                    {highlightKeyword(`${keyword} 관련 보상도 `, keyword)}
+                    보험사 안내만으로는 치료 기록, 과실 비율, 장해율, 약관상 지급 기준이 충분히 반영되었는지 알기 어렵습니다. 제시된 금액이나 부지급 사유는 보유 서류를 기준으로 먼저 확인하는 것이 안전합니다.
                   </>
                 ) : (
                   <>
-                    보험사 안내만으로는 치료 기록, 과실 비율, 장해율, 약관상 지급 기준이 충분히 반영되었는지 알기 어렵습니다.<br className="hidden sm:inline" />
-                    손해사정 검토는 제시된 금액이 적정한지 자료를 기준으로 확인하는 과정입니다.
+                    보험사 안내만으로는 치료 기록, 과실 비율, 장해율, 약관상 지급 기준이 충분히 반영되었는지 알기 어렵습니다. 제시된 금액이나 부지급 사유는 보유 서류를 기준으로 먼저 확인하는 것이 안전합니다.
                   </>
                 )}
               </p>

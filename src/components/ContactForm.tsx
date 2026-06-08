@@ -126,6 +126,12 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5 text-brand-primary">
+      {/* 안내 문구 추가 */}
+      <div className="bg-brand-ivory/80 border border-brand-gold/30 rounded-xl p-4 text-xs font-semibold text-brand-muted leading-relaxed break-keep">
+        자료가 모두 준비되지 않아도 괜찮습니다.<br />
+        현재 상황을 남겨주시면 필요한 서류와 검토 방향부터 안내드립니다.
+      </div>
+
       {/* 1 & 2. 성함 & 연락처 */}
       <div className="grid md:grid-cols-2 gap-4">
         <div>
