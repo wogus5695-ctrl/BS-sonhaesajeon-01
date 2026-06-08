@@ -57,7 +57,8 @@ const mainServices = [
     ],
     tag: "12대 중과실 보상 검토",
     buttonText: "중과실 사고 보상 검토하기",
-    icon: FileSearch
+    icon: FileSearch,
+    theme: "traffic"
   },
   {
     title: "산재 손해사정",
@@ -69,7 +70,8 @@ const mainServices = [
     ],
     tag: "근로자 산재·장해",
     buttonText: "산재 보상 가능성 확인",
-    icon: Scale
+    icon: Scale,
+    theme: "industrial"
   },
   {
     title: "보험금 분쟁 손해사정",
@@ -81,7 +83,8 @@ const mainServices = [
     ],
     tag: "부지급·감액·면책",
     buttonText: "보험금 부지급 사유 확인",
-    icon: ShieldCheck
+    icon: ShieldCheck,
+    theme: "insurance"
   },
   {
     title: "산업재해·직업병 손해사정",
@@ -93,17 +96,16 @@ const mainServices = [
     ],
     tag: "현장 사고·직업병",
     buttonText: "업무 관련성 검토받기",
-    icon: Building2
+    icon: Building2,
+    theme: "industrial"
   }
 ];
 
 const processSteps = [
-  { step: "01", title: "무상 기초 상담", desc: "사고 경위와 현재 진행 상황을 먼저 확인합니다." },
-  { step: "02", title: "자료 확인 및 수집", desc: "진단서, 치료 기록, 보험 안내문 등 필요한 자료를 안내합니다." },
-  { step: "03", title: "의무기록 분석", desc: "진단서, 치료 경과, 후유장해 가능성을 검토합니다." },
-  { step: "04", title: "약관·지급 기준 검토", desc: "보험 약관과 지급 기준에 맞는지 대조합니다." },
-  { step: "05", title: "손해액 산정", desc: "치료비, 휴업손해, 위자료, 장해 항목을 검토합니다." },
-  { step: "06", title: "검토 결과 안내", desc: "필요 시 손해사정서 작성 및 제출 방향을 안내합니다." }
+  { step: "01", title: "무상 기초 상담", desc: "사고 경위와 현재 진행 상황을 바탕으로 상담을 진행합니다." },
+  { step: "02", title: "보상 서류 수집", desc: "진단서, 치료 기록, 보험 안내문 등 분석에 필요한 서류를 확인합니다." },
+  { step: "03", title: "자료 분석 및 법리 검토", desc: "의무기록과 약관, 지급 기준을 세부 대조하여 분석합니다." },
+  { step: "04", title: "손해액 산정 및 결과 안내", desc: "손해 항목 분석 결과와 향후 보상 검토 방향을 안내합니다." }
 ];
 
 const SectionTitle = ({ title, sub, label }: { title: string, sub?: string, label?: string }) => (
@@ -137,6 +139,15 @@ export default function MainPageContent({ k }: { k?: string }) {
   const theme = classifyKeyword(keyword);
   const dki = getDKIContent(keyword, theme);
   const intentData = getDKIIntentData(keyword);
+
+  // 검토 분야 카드 정렬 로직 적용
+  const sortedServices = React.useMemo(() => {
+    return [...mainServices].sort((a, b) => {
+      if (a.theme === theme && b.theme !== theme) return -1;
+      if (a.theme !== theme && b.theme === theme) return 1;
+      return 0;
+    });
+  }, [theme]);
 
   const faqs = React.useMemo(() => {
     if (!hasKeyword) return commonFaqs;
@@ -529,7 +540,7 @@ export default function MainPageContent({ k }: { k?: string }) {
             sub="교통사고, 산재, 후유장해, 보험금 분쟁은 각 사건별로 필요한 검토 자료가 다릅니다.<br />내 사건에 맞는 항목을 기준으로 보상 가능성과 산정 기준을 확인합니다." 
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-            {mainServices.map((service, idx) => {
+            {sortedServices.map((service, idx) => {
               const IconComponent = service.icon;
               return (
                 <div key={idx} className="bg-white rounded-[2rem] border border-brand-gold/15 shadow-sm hover:shadow-md hover:border-brand-gold/60 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between h-full">
@@ -586,7 +597,7 @@ export default function MainPageContent({ k }: { k?: string }) {
             {/* Connecting line on desktop */}
             <div className="hidden lg:block absolute top-7 left-[8%] right-[8%] border-t border-dashed border-brand-line z-0" />
             
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
               {processSteps.map((step, idx) => (
                 <div key={idx} className="relative z-10 flex flex-col items-center text-center group">
                   {idx < processSteps.length - 1 && (
