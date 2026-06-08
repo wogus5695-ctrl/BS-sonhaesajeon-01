@@ -668,8 +668,7 @@ export default function MainPageContent({ k }: { k?: string }) {
             <div>
               <h2 className="text-3xl md:text-5xl font-black mb-8 break-keep text-brand-white leading-tight">
                 합의서에 서명하기 전,<br />
-                <span className="text-brand-gold">보상 기준</span>부터<br />
-                확인하세요
+                <span className="text-brand-gold">보상 기준</span>부터 확인하세요
               </h2>
               <p className="text-white/70 text-base md:text-lg mb-10 leading-relaxed break-keep">
                 {hasKeyword ? (

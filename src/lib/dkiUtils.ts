@@ -121,8 +121,20 @@ export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
     // CTA 예시 적용
     const ctaText = `${matchedRegion} ${service} 검토 신청`;
     
-    const metaTitle = `${matchedRegion} ${service} 상담 - ${brand}`;
-    const metaDesc = `${matchedRegion} 지역 ${service} 관련 보상 쟁점에 대해 약관과 의무 기록 등 개별 자료를 기준으로 분석하고 검토합니다.`;
+    const combined = `${matchedRegion} ${service}`.trim();
+    const titleKeyword = combined.endsWith("상담") ? combined : `${combined} 상담`;
+    const metaTitle = `${titleKeyword} - ${brand}`;
+
+    let metaDesc = "";
+    if (type === "traffic") {
+      metaDesc = `${combined} 관련 상담이 필요하다면 교통사고 합의금, 후유장해, 과실비율, 향후치료비 등 보상 문제를 블랙박스·진단서·치료기록 기준으로 검토하세요.`;
+    } else if (type === "insurance") {
+      metaDesc = `${combined} 관련 상담이 필요하다면 보험사 제시금, 보험금 부지급, 고지의무 위반, 의료자문 문제를 약관·진단서·치료기록 기준으로 검토하세요.`;
+    } else if (type === "industrial") {
+      metaDesc = `${combined} 관련 상담이 필요하다면 산재 불승인, 장해등급, 직업병, 치료 종결 문제를 재해경위서·진단서·의무기록 기준으로 검토하세요.`;
+    } else {
+      metaDesc = `${combined} 관련 상담이 필요하다면 보험사 제시금, 산재 불승인, 후유장해, 보험금 부지급 문제를 진단서·치료기록·약관·사고경위 기준으로 검토하세요.`;
+    }
 
     return { type, heroTitle, heroSubtitle, ctaText, metaTitle, metaDesc };
   }
@@ -131,8 +143,20 @@ export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
   let heroTitle = `<span class="text-brand-accent underline decoration-brand-accent decoration-2 underline-offset-8 font-bold">${k}</span> <span class="text-white">상담이 필요하신가요?</span>`;
   let heroSubtitle = `보상 문제는 사고자료, 의무기록, 보험약관 등 세부적인 개별 자료를 기준으로 검토하고 확인하는 과정이 필요합니다.`;
   let ctaText = "무료 사건 분석 의뢰";
-  let metaTitle = `${k} 상담 - ${brand}`;
-  let metaDesc = `${k} 보상 관련 쟁점에 대해 약관 규정과 치료 기록 자료를 기준으로 철저하게 분석하고 확인합니다.`;
+
+  const titleKeyword = k.endsWith("상담") ? k : `${k} 상담`;
+  let metaTitle = `${titleKeyword} - ${brand}`;
+
+  let metaDesc = "";
+  if (type === "traffic") {
+    metaDesc = `${k} 관련 상담이 필요하다면 교통사고 합의금, 후유장해, 과실비율, 향후치료비 등 보상 문제를 블랙박스·진단서·치료기록 기준으로 검토하세요.`;
+  } else if (type === "insurance") {
+    metaDesc = `${k} 관련 상담이 필요하다면 보험사 제시금, 보험금 부지급, 고지의무 위반, 의료자문 문제를 약관·진단서·치료기록 기준으로 검토하세요.`;
+  } else if (type === "industrial") {
+    metaDesc = `${k} 관련 상담이 필요하다면 산재 불승인, 장해등급, 직업병, 치료 종결 문제를 재해경위서·진단서·의무기록 기준으로 검토하세요.`;
+  } else {
+    metaDesc = `${k} 관련 상담이 필요하다면 보험사 제시금, 산재 불승인, 후유장해, 보험금 부지급 문제를 진단서·치료기록·약관·사고경위 기준으로 검토하세요.`;
+  }
 
   return { type, heroTitle, heroSubtitle, ctaText, metaTitle, metaDesc };
 };
@@ -218,99 +242,99 @@ export const getDKIIntentData = (k: string): DKIIntentData => {
 
   let h1Part1 = `${keyword},`;
   let h1Part2 = "그대로 동의하기 전 검토하세요";
-  let heroDescription = `${keyword} 문제는 재해경위, 의무기록, 약관 등을 기준으로 검토합니다.`;
-  let sectionDescription = `${keyword}는 사건 유형에 따라 확인해야 할 자료와 판단 기준이 달라집니다.`;
-  let faqQuestion = `${keyword} 상담을 받으려면 어떤 자료가 필요할까요?`;
-  let ctaSentence = `${keyword} 문제로 합의, 부지급, 산재 판단이 고민된다면 보유한 서류 기준으로 먼저 검토를 요청해보세요.`;
+  let heroDescription = `${keyword} 문제는 사고 경위, 의무기록, 약관 등을 기준으로 검토합니다.`;
+  let sectionDescription = `${keyword} 관련 보상은 사건 유형에 따라 확인해야 할 자료와 판단 기준이 달라집니다.`;
+  let faqQuestion = `${keyword} 관련 상담을 받으려면 어떤 자료가 필요할까요?`;
+  let ctaSentence = `${keyword} 관련 상담이 필요하다면 현재 보유한 서류를 기준으로 먼저 검토를 요청해보세요.`;
 
   switch (intentGroup) {
     case "consultant":
       h1Part1 = `${keyword},`;
       h1Part2 = "보험금 검토가 필요하다면";
-      heroDescription = `${keyword} 상담은 사고 경위, 의무기록, 약관, 보험사 안내 내용을 기준으로 검토 방향을 확인합니다.`;
-      sectionDescription = `${keyword}를 찾고 계신다면, 먼저 내 사건이 교통사고·산재·후유장해·보험금 분쟁 중 어디에 해당하는지 확인하는 것이 중요합니다.`;
-      faqQuestion = `${keyword} 상담을 받으려면 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 상담이 필요하다면 보유한 서류 기준으로 먼저 검토를 요청해보세요.`;
+      heroDescription = `${keyword} 관련 상담은 사고 경위, 의무기록, 약관, 보험사 안내 내용을 기준으로 검토 방향을 확인합니다.`;
+      sectionDescription = `${keyword} 관련 검토를 찾고 계신다면, 먼저 내 사건이 교통사고·산재·후유장해·보험금 분쟁 중 어디에 해당하는지 확인하는 것이 중요합니다.`;
+      faqQuestion = `${keyword} 관련 상담을 받으려면 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 상담이 필요하다면 보유한 서류 기준으로 먼저 검토를 요청해보세요.`;
       break;
     case "consultation":
       h1Part1 = `${keyword},`;
       h1Part2 = "서류 기준으로 먼저 확인하세요";
-      heroDescription = `${keyword}은 보험금, 산재, 후유장해, 교통사고 합의금 관련 자료를 기준으로 진행됩니다.`;
-      sectionDescription = `${keyword}은 사고 유형에 따라 필요한 자료와 검토 기준이 달라집니다.`;
-      faqQuestion = `${keyword}은 어떤 절차로 진행되나요?`;
-      ctaSentence = `${keyword}이 필요하다면 현재 보유한 서류부터 확인해보세요.`;
+      heroDescription = `${keyword} 관련 상담은 보험금, 산재, 후유장해, 교통사고 합의금 관련 자료를 기준으로 진행됩니다.`;
+      sectionDescription = `${keyword} 관련 상담은 사고 유형에 따라 필요한 자료와 검토 기준이 달라집니다.`;
+      faqQuestion = `${keyword} 관련 상담은 어떤 절차로 진행되나요?`;
+      ctaSentence = `${keyword} 관련 상담이 필요하다면 현재 보유한 서류부터 확인해보세요.`;
       break;
     case "traffic":
       h1Part1 = `${keyword},`;
       h1Part2 = "그대로 동의하기 전 검토하세요";
-      heroDescription = `${keyword}은 사고 경위, 과실 비율, 치료 기록, 소득자료를 기준으로 적정성을 확인해야 합니다.`;
-      sectionDescription = `${keyword}은 사건 유형과 치료 경과에 따라 검토해야 할 손해 항목이 달라집니다.`;
-      faqQuestion = `${keyword} 검토에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword}이 적정한지 고민된다면 합의 전 서류 검토를 요청해보세요.`;
+      heroDescription = `${keyword} 문제는 사고 경위, 과실 비율, 치료 기록, 소득자료를 기준으로 적정성을 확인해야 합니다.`;
+      sectionDescription = `${keyword} 관련 보상은 사건 유형과 치료 경과에 따라 검토해야 할 손해 항목이 달라집니다.`;
+      faqQuestion = `${keyword} 관련 검토에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 합의금 적정성이 고민된다면 합의 전 서류 검토를 요청해보세요.`;
       break;
     case "seriousTraffic":
       h1Part1 = `${keyword} 사고,`;
       h1Part2 = "과실 판단부터 확인하세요";
-      heroDescription = `${keyword} 사고는 사고 경위, 법규 위반 내용, 진단 자료, 보험사 안내 내용을 기준으로 검토합니다.`;
-      sectionDescription = `${keyword} 사고는 일반 교통사고보다 과실 판단과 보상 범위 확인이 더 중요할 수 있습니다.`;
-      faqQuestion = `${keyword} 사고 상담에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 사고로 합의금이나 과실 비율이 고민된다면 먼저 자료를 기준으로 검토해보세요.`;
+      heroDescription = `${keyword} 문제는 사고 경위, 법규 위반 내용, 진단 자료, 보험사 안내 내용을 기준으로 검토합니다.`;
+      sectionDescription = `${keyword} 문제는 일반 교통사고보다 과실 판단과 보상 범위 확인이 더 중요할 수 있습니다.`;
+      faqQuestion = `${keyword} 관련 상담에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련으로 합의금이나 과실 비율이 고민된다면 먼저 자료를 기준으로 검토해보세요.`;
       break;
     case "industrialAccident":
       h1Part1 = `${keyword},`;
       h1Part2 = "자료 기준으로 다시 확인하세요";
-      heroDescription = `${keyword} 사안은 재해경위, 의무기록, 업무관련성 자료를 기준으로 검토합니다.`;
-      sectionDescription = `${keyword}은 제출 자료와 판단 기준에 따라 검토 방향이 달라질 수 있습니다.`;
-      faqQuestion = `${keyword} 상담에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword}으로 고민 중이라면 보유한 산재 자료를 기준으로 먼저 검토해보세요.`;
+      heroDescription = `${keyword} 문제는 재해경위, 의무기록, 업무관련성 자료를 기준으로 검토합니다.`;
+      sectionDescription = `${keyword} 관련 보상은 제출 자료와 판단 기준에 따라 검토 방향이 달라질 수 있습니다.`;
+      faqQuestion = `${keyword} 관련 상담에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련으로 고민 중이라면 보유한 산재 자료를 기준으로 먼저 검토해보세요.`;
       break;
     case "industrialDisease":
       h1Part1 = `${keyword},`;
       h1Part2 = "업무관련성 검토가 필요하다면";
-      heroDescription = `${keyword} 사안은 근무 이력, 작업환경, 의무기록, 업무관련성 자료를 기준으로 검토합니다.`;
-      sectionDescription = `${keyword}은 질병명만으로 판단하기 어렵고, 근무 환경과 의학자료를 함께 확인해야 합니다.`;
-      faqQuestion = `${keyword} 상담에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 인정 가능성이 고민된다면 관련 자료를 기준으로 먼저 검토를 요청해보세요.`;
+      heroDescription = `${keyword} 문제는 근무 이력, 작업환경, 의무기록, 업무관련성 자료를 기준으로 검토합니다.`;
+      sectionDescription = `${keyword} 관련 보상은 질병명만으로 판단하기 어렵고, 근무 환경과 의학자료를 함께 확인해야 합니다.`;
+      faqQuestion = `${keyword} 관련 상담에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 인정 가능성이 고민된다면 관련 자료를 기준으로 먼저 검토를 요청해보세요.`;
       break;
     case "document":
       h1Part1 = `${keyword},`;
       h1Part2 = "제출 전 검토가 필요하다면";
       heroDescription = `${keyword} 관련 검토는 치료 경과, 장해 상태, 의무기록, 장해평가 기준을 함께 확인해야 합니다.`;
-      sectionDescription = `${keyword}는 장해등급 판단에 영향을 줄 수 있으므로 제출 전 기록과 상태가 충분히 반영되었는지 확인하는 것이 중요합니다.`;
-      faqQuestion = `${keyword} 검토에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 제출이 고민된다면 치료 기록과 현재 상태를 기준으로 먼저 확인해보세요.`;
+      sectionDescription = `${keyword} 관련 서류는 장해등급 판단에 영향을 줄 수 있으므로 제출 전 기록과 상태가 충분히 반영되었는지 확인하는 것이 중요합니다.`;
+      faqQuestion = `${keyword} 관련 검토에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 서류 제출이 고민된다면 치료 기록과 현재 상태를 기준으로 먼저 확인해보세요.`;
       break;
     case "treatmentEnd":
       h1Part1 = `${keyword},`;
       h1Part2 = "종결 전 확인이 필요하다면";
-      heroDescription = `${keyword} 단계에서는 치료 경과, 남은 증상, 장해 가능성, 향후 보상 쟁점을 함께 확인해야 합니다.`;
-      sectionDescription = `${keyword} 이후에는 장해등급이나 추가 보상 가능성이 달라질 수 있으므로 자료 검토가 필요할 수 있습니다.`;
-      faqQuestion = `${keyword} 전후에는 어떤 자료를 확인해야 하나요?`;
-      ctaSentence = `${keyword} 안내를 받았다면 치료 기록과 현재 증상을 기준으로 먼저 검토해보세요.`;
+      heroDescription = `${keyword} 관련 보상은 치료 경과, 남은 증상, 장해 가능성, 향후 보상 쟁점을 함께 확인해야 합니다.`;
+      sectionDescription = `${keyword} 관련 보상은 종결 이후 장해등급이나 추가 보상 가능성이 달라질 수 있으므로 자료 검토가 필요할 수 있습니다.`;
+      faqQuestion = `${keyword} 관련 종결 전후에는 어떤 자료를 확인해야 하나요?`;
+      ctaSentence = `${keyword} 관련 안내를 받았다면 치료 기록과 현재 증상을 기준으로 먼저 검토해보세요.`;
       break;
     case "insuranceDispute":
       h1Part1 = `${keyword},`;
       h1Part2 = "보험사 안내가 맞는지 확인하세요";
-      heroDescription = `${keyword}은 보험 약관, 진단 자료, 고지의무, 보험사 안내 내용을 기준으로 검토합니다.`;
-      sectionDescription = `${keyword}은 약관과 제출 자료에 따라 지급 가능성과 검토 방향이 달라질 수 있습니다.`;
-      faqQuestion = `${keyword} 상담에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 문제로 부지급이나 감액 안내를 받았다면 먼저 약관과 자료를 기준으로 확인해보세요.`;
+      heroDescription = `${keyword} 문제는 보험 약관, 진단 자료, 고지의무, 보험사 안내 내용을 기준으로 검토합니다.`;
+      sectionDescription = `${keyword} 관련 분쟁은 약관과 제출 자료에 따라 지급 가능성과 검토 방향이 달라질 수 있습니다.`;
+      faqQuestion = `${keyword} 관련 상담에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 부지급이나 감액 안내를 받았다면 먼저 약관과 자료를 기준으로 확인해보세요.`;
       break;
     case "deliveryAccident":
       h1Part1 = `${keyword},`;
       h1Part2 = "업무 중 사고라면 검토하세요";
-      heroDescription = `${keyword}는 사고 경위, 업무 수행 여부, 치료 기록, 산재 신청 자료를 기준으로 검토합니다.`;
-      sectionDescription = `${keyword}는 근무 형태와 사고 발생 시점에 따라 업무관련성 판단이 달라질 수 있습니다.`;
-      faqQuestion = `${keyword} 상담에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 여부가 고민된다면 사고 경위와 치료 기록을 기준으로 먼저 검토해보세요.`;
+      heroDescription = `${keyword} 문제는 사고 경위, 업무 수행 여부, 치료 기록, 산재 신청 자료를 기준으로 검토합니다.`;
+      sectionDescription = `${keyword} 문제는 근무 형태와 사고 발생 시점에 따라 업무관련성 판단이 달라질 수 있습니다.`;
+      faqQuestion = `${keyword} 관련 상담에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 산재 여부가 고민된다면 사고 경위와 치료 기록을 기준으로 먼저 검토해보세요.`;
       break;
     case "workerAccident":
       h1Part1 = `${keyword},`;
       h1Part2 = "업무관련성부터 확인하세요";
-      heroDescription = `${keyword}는 사고 발생 경위, 업무 수행 여부, 치료 기록, 근무 자료를 기준으로 검토합니다.`;
-      sectionDescription = `${keyword}는 사고 시점과 업무 수행 과정이 중요하므로 관련 자료를 함께 확인해야 합니다.`;
-      faqQuestion = `${keyword} 상담에는 어떤 자료가 필요할까요?`;
-      ctaSentence = `${keyword} 인정 가능성이 고민된다면 사고 경위와 근무 자료를 기준으로 먼저 검토해보세요.`;
+      heroDescription = `${keyword} 문제는 사고 발생 경위, 업무 수행 여부, 치료 기록, 근무 자료를 기준으로 검토합니다.`;
+      sectionDescription = `${keyword} 문제는 사고 시점과 업무 수행 과정이 중요하므로 관련 자료를 함께 확인해야 합니다.`;
+      faqQuestion = `${keyword} 관련 상담에는 어떤 자료가 필요할까요?`;
+      ctaSentence = `${keyword} 관련 인정 가능성이 고민된다면 사고 경위와 근무 자료를 기준으로 먼저 검토해보세요.`;
       break;
   }
 

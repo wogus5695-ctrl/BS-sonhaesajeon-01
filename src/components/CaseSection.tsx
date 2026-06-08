@@ -214,7 +214,7 @@ export default function CaseSection({ keyword }: { keyword?: string }) {
 
         <p className="mt-6 text-[10px] text-white/20 leading-relaxed text-center break-keep max-w-4xl mx-auto font-medium">
           {keyword ? (
-            `※ ${keyword}와 유사한 사건이라도 사고 경위, 진단 내용, 약관, 제출 자료에 따라 검토 방향은 달라질 수 있습니다.`
+            `※ ${keyword} 문제와 유사한 사건이라도 사고 경위, 진단 내용, 약관, 제출 자료에 따라 검토 방향은 달라질 수 있습니다.`
           ) : (
             "※ 위 사례는 상담 이해를 돕기 위한 예시이며, 실제 검토 결과는 사고 경위, 진단 내용, 약관, 제출 자료에 따라 달라질 수 있습니다."
           )}
