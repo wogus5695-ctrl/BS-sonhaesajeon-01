@@ -123,12 +123,6 @@ export default function Page({ params }: PageProps) {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "부산 키워드 허브",
-        "item": `${baseUrl}/sitemap-busan`
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
         "name": keyword,
         "item": `${baseUrl}/issue/${encodeURIComponent(params.slug)}`
       }
