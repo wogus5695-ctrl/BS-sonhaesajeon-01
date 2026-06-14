@@ -201,7 +201,13 @@ export const getIntentGroup = (k: string): string => {
   if (kw.includes("산재 불승인") || kw.includes("산재 장해등급") || kw.includes("산재 손해사정사")) {
     return "industrialAccident";
   }
-  if (kw.includes("보험금 부지급") || kw.includes("후유장해 보험금")) {
+  if (
+    kw.includes("보험금 부지급") || 
+    kw.includes("후유장해 보험금") || 
+    kw.includes("보험금 지급 거절") || 
+    kw.includes("암진단비 거절") || 
+    kw.includes("암진단비 손해사정사")
+  ) {
     return "insuranceDispute";
   }
   if (kw.includes("치료 종결")) {
