@@ -157,87 +157,88 @@ industrialRegions.forEach((region) => {
   });
 });
 
-// C. 260616 신규 확장 키워드 정의
-const newBasicServicesList = [
-  "손해사정사", "손해사정사 상담", "교통사고 손해사정사", "교통사고 합의금", "보험금 부지급", "후유장해 보험금", "산재 불승인", "산재 장해등급", "12대 중과실",
-  "보험금 지급 거절", "암진단비 거절", "암진단비 손해사정사", "12대 중과실 합의금",
-  "위자료", "휴업손해", "향후치료비", "교통사고", "보험금 안나옴", "보험금 삭감", "보험금 감액"
+// C. 260616 신규 확장 키워드 정의 (부산 문제상황형 51개 키워드만 1차로 추가)
+const newBusanKeywords = [
+  // 교통사고 계열
+  "부산 교통사고 합의금 상담",
+  "부산 교통사고 위자료",
+  "부산 교통사고 휴업손해",
+  "부산 교통사고 향후치료비",
+  "부산 교통사고 후유장해",
+  "부산 교통사고 보험금 검토",
+  "부산 교통사고 피해자 손해사정",
+  "부산 교통사고 손해액 산정",
+
+  // 산재 계열
+  "부산 산재 심사청구",
+  "부산 산재 재심사",
+  "부산 산재 재요양",
+  "부산 산재 휴업급여",
+  "부산 산재 장해급여",
+  "부산 산재 평균임금",
+  "부산 산재 치료 종결 후 장해",
+  "부산 산재 장해진단서 작성",
+  "부산 산재 장해진단서 발급",
+  "부산 산재 장해등급 재판정",
+  "부산 산재 후유장해",
+
+  // 직업병·현장 산재 계열
+  "부산 소음성 난청 산재",
+  "부산 근골격계 질환 산재",
+  "부산 허리디스크 산재",
+  "부산 회전근개파열 산재",
+  "부산 무릎 산재",
+  "부산 조선소 산재",
+  "부산 항만 산재",
+  "부산 건설현장 산재",
+  "부산 제조업 산재",
+  "부산 지게차 사고 산재",
+  "부산 끼임 사고 산재",
+  "부산 추락 사고 산재",
+
+  // 보험금 분쟁 계열
+  "부산 보험금 안나옴",
+  "부산 보험금 삭감",
+  "부산 보험금 감액",
+  "부산 보험금 면책",
+  "부산 보험금 지급 거절 사유",
+  "부산 보험금 부지급 사유",
+  "부산 보험금 분쟁",
+  "부산 보험사 지급 거절",
+  "부산 보험사 면책 통보",
+  "부산 고지의무 위반 보험금",
+
+  // 암진단비·질병보험 계열
+  "부산 암보험금 거절",
+  "부산 암진단비 부지급",
+  "부산 암진단비 지급 거절",
+  "부산 암진단비 감액",
+  "부산 암진단비 면책",
+  "부산 암진단비 고지의무",
+  "부산 경계성종양 보험금",
+  "부산 제자리암 보험금",
+  "부산 상피내암 보험금",
+  "부산 유사암 진단비"
 ];
 
-const newIndustrialServicesList = [
-  "산재 손해사정사", "산재 치료 종결", "직업병 산재", "폐암 산재", "산재 장해진단서", "업무 중 사고 산재", "배달 오토바이 사고 산재", "택배기사 산재",
-  "산재 심사청구", "산재 재심사", "산재 휴업급여", "산재 장해급여", "소음성 난청 산재", "근골격계 질환 산재", "조선소 산재", "항만 산재", "제조업 산재",
-  "건설현장 산재", "지게차 사고 산재", "끼임 사고 산재", "추락 사고 산재"
-];
-
-const allNewServices = [...newBasicServicesList, ...newIndustrialServicesList];
-
-// 1. 부산 문제상황형 (기존에 없던 신규 21개 서비스들만 매핑하여 중복 방지)
-const existingAllServices = [...basicServices, ...industrialServices];
-const newOnlyServices = allNewServices.filter(s => !existingAllServices.includes(s));
-
-newOnlyServices.forEach((service) => {
-  generatedKeywords.push(
-    buildKeywordItem("부산", service, "신규 확장 상담", true, "260616", "2026년 6월 16일 추가", "부산 문제상황형")
-  );
-});
-
-// 2. 신규 확장 지역들 정의 (김해, 양산, 울산, 창원, 생활권 권역)
-interface NewRegionConfig {
-  variant: string;
-  groupLabel: string;
-  region: string;
-  subRegion?: string;
-  areaType: "city" | "district" | "lifeArea";
-}
-
-const newRegionConfigs: NewRegionConfig[] = [
-  // 김해
-  { variant: "김해", groupLabel: "김해", region: "김해", areaType: "city" },
-  // 양산
-  { variant: "양산", groupLabel: "양산", region: "양산", areaType: "city" },
-  // 울산
-  { variant: "울산", groupLabel: "울산", region: "울산", areaType: "city" },
-  { variant: "울산 남구", groupLabel: "울산", region: "울산", subRegion: "남구", areaType: "district" },
-  { variant: "울산 북구", groupLabel: "울산", region: "울산", subRegion: "북구", areaType: "district" },
-  { variant: "울산 중구", groupLabel: "울산", region: "울산", subRegion: "중구", areaType: "district" },
-  { variant: "울산 동구", groupLabel: "울산", region: "울산", subRegion: "동구", areaType: "district" },
-  { variant: "울산 울주군", groupLabel: "울산", region: "울산", subRegion: "울주군", areaType: "district" },
-  // 창원
-  { variant: "창원", groupLabel: "창원", region: "창원", areaType: "city" },
-  { variant: "창원 성산구", groupLabel: "창원", region: "창원", subRegion: "성산구", areaType: "district" },
-  { variant: "창원 의창구", groupLabel: "창원", region: "창원", subRegion: "의창구", areaType: "district" },
-  { variant: "창원 마산합포구", groupLabel: "창원", region: "창원", subRegion: "마산합포구", areaType: "district" },
-  { variant: "창원 마산회원구", groupLabel: "창원", region: "창원", subRegion: "마산회원구", areaType: "district" },
-  { variant: "창원 진해구", groupLabel: "창원", region: "창원", subRegion: "진해구", areaType: "district" },
-  // 생활권 권역
-  { variant: "서김해", groupLabel: "생활권 권역", region: "김해", subRegion: "서김해", areaType: "lifeArea" },
-  { variant: "동김해", groupLabel: "생활권 권역", region: "김해", subRegion: "동김해", areaType: "lifeArea" },
-  { variant: "물금", groupLabel: "생활권 권역", region: "양산", subRegion: "물금", areaType: "lifeArea" },
-  { variant: "웅상", groupLabel: "생활권 권역", region: "양산", subRegion: "웅상", areaType: "lifeArea" }
-];
-
-newRegionConfigs.forEach((config) => {
-  allNewServices.forEach((service) => {
-    const label = `${config.variant} ${service}`;
-    const isDuplicate = generatedKeywords.some(k => k.label === label);
-    if (!isDuplicate) {
-      generatedKeywords.push(
-        buildKeywordItem(
-          config.variant,
-          service,
-          "신규 확장 상담",
-          true,
-          "260616",
-          "2026년 6월 16일 추가",
-          config.groupLabel,
-          config.region,
-          config.subRegion,
-          config.areaType
-        )
-      );
-    }
-  });
+newBusanKeywords.forEach((keyword) => {
+  const isDuplicate = generatedKeywords.some(k => k.label === keyword);
+  if (!isDuplicate) {
+    generatedKeywords.push(
+      buildKeywordItem(
+        "",
+        keyword,
+        "신규 확장 상담",
+        true,
+        "260616",
+        "260616 신규 확장 키워드",
+        "부산 문제상황형 확장 키워드",
+        "부산",
+        "",
+        "city"
+      )
+    );
+  }
 });
 
 export const busanKeywordsList = generatedKeywords;

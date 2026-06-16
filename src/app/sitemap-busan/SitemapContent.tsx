@@ -61,7 +61,7 @@ export default function SitemapContent() {
 
   const groupedNewKeywords = useMemo(() => {
     const grouped: Record<string, KeywordItem[]> = {
-      "부산 문제상황형": [],
+      "부산 문제상황형 확장 키워드": [],
       "김해": [],
       "양산": [],
       "울산": [],
@@ -69,7 +69,7 @@ export default function SitemapContent() {
       "생활권 권역": []
     };
     newKeywords.forEach(item => {
-      const group = item.groupLabel || "부산 문제상황형";
+      const group = item.groupLabel || "부산 문제상황형 확장 키워드";
       if (!grouped[group]) {
         grouped[group] = [];
       }
@@ -78,7 +78,7 @@ export default function SitemapContent() {
     return grouped;
   }, [newKeywords]);
 
-  const newGroupsList = ["부산 문제상황형", "김해", "양산", "울산", "창원", "생활권 권역"];
+  const newGroupsList = ["부산 문제상황형 확장 키워드", "김해", "양산", "울산", "창원", "생활권 권역"];
 
   const newBasicServicesList = [
     "손해사정사", "손해사정사 상담", "교통사고 손해사정사", "교통사고 합의금", "보험금 부지급", "후유장해 보험금", "산재 불승인", "산재 장해등급", "12대 중과실",
@@ -93,7 +93,7 @@ export default function SitemapContent() {
   ];
 
   const [openNewGroups, setOpenNewGroups] = useState<Record<string, boolean>>({
-    "부산 문제상황형": false,
+    "부산 문제상황형 확장 키워드": false,
     "김해": false,
     "양산": false,
     "울산": false,
@@ -112,7 +112,7 @@ export default function SitemapContent() {
 
   const expandAllNew = () => {
     setOpenNewGroups({
-      "부산 문제상황형": true,
+      "부산 문제상황형 확장 키워드": true,
       "김해": true,
       "양산": true,
       "울산": true,
@@ -123,7 +123,7 @@ export default function SitemapContent() {
 
   const collapseAllNew = () => {
     setOpenNewGroups({
-      "부산 문제상황형": false,
+      "부산 문제상황형 확장 키워드": false,
       "김해": false,
       "양산": false,
       "울산": false,
@@ -375,7 +375,7 @@ export default function SitemapContent() {
                     <div className="flex items-center gap-3">
                       <div className="w-2.5 h-2.5 rounded-full bg-brand-gold" />
                       <span className="text-[15px] font-black text-brand-primary">
-                        {groupName === "부산 문제상황형" ? "부산 문제상황형 확장 키워드" : `${groupName} 확장 키워드`}
+                        {groupName.endsWith("확장 키워드") ? groupName : `${groupName} 확장 키워드`}
                       </span>
                       <span className="text-[10px] font-bold bg-brand-primary/5 text-brand-primary/60 px-2 py-0.5 rounded-full border border-brand-line">
                         {items.length}개 키워드

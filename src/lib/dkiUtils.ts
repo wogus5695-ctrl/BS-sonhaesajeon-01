@@ -164,44 +164,98 @@ export const getProblemSituationsByTheme = (type: DKIType) => {
 export const getIntentGroup = (k: string): string => {
   const kw = k.toLowerCase();
   
-  if (kw.includes("배달 오토바이 사고 산재")) {
+  // 1. 배달 오토바이
+  if (kw.includes("배달 오토바이")) {
     return "deliveryAccident";
   }
-  if (kw.includes("택배기사 산재") || kw.includes("업무 중 사고 산재")) {
+  // 2. 업무 중 사고 / 현장 재해
+  if (
+    kw.includes("택배기사") || 
+    kw.includes("업무 중 사고") || 
+    kw.includes("건설현장") || 
+    kw.includes("지게차") || 
+    kw.includes("끼임") || 
+    kw.includes("추락")
+  ) {
     return "workerAccident";
   }
-  if (kw.includes("직업병 산재") || kw.includes("폐암 산재")) {
+  // 3. 직업병 산재
+  if (
+    kw.includes("직업병") || 
+    kw.includes("폐암") || 
+    kw.includes("소음성 난청") || 
+    kw.includes("근골격계") || 
+    kw.includes("조선소") || 
+    kw.includes("항만") || 
+    kw.includes("제조업")
+  ) {
     return "industrialDisease";
   }
-  if (kw.includes("산재 불승인") || kw.includes("산재 장해등급") || kw.includes("산재 손해사정사")) {
+  // 4. 산재 행정 및 등급/승인
+  if (
+    kw.includes("산재 불승인") || 
+    kw.includes("산재 장해등급") || 
+    kw.includes("산재 손해사정사") ||
+    kw.includes("산재 심사청구") ||
+    kw.includes("산재 재심사") ||
+    kw.includes("산재 휴업급여") ||
+    kw.includes("산재 장해급여") ||
+    kw.includes("산재 평균임금") ||
+    kw.includes("산재 후유장해") ||
+    kw.includes("재요양") ||
+    kw.includes("재판정")
+  ) {
     return "industrialAccident";
   }
-  if (
-    kw.includes("보험금 부지급") || 
-    kw.includes("후유장해 보험금") || 
-    kw.includes("보험금 지급 거절") || 
-    kw.includes("암진단비 거절") || 
-    kw.includes("암진단비 손해사정사")
-  ) {
-    return "insuranceDispute";
-  }
+  // 5. 치료 종결
   if (kw.includes("치료 종결")) {
     return "treatmentEnd";
   }
+  // 6. 장해진단서
   if (kw.includes("장해진단서")) {
     return "document";
   }
+  // 7. 12대 중과실
   if (kw.includes("12대 중과실")) {
     return "seriousTraffic";
   }
+  // 8. 교통사고 일반 (합의금, 위자료, 휴업손해, 향후치료비 등 우선 매치)
+  if (
+    kw.includes("교통사고") || 
+    kw.includes("합의금") || 
+    kw.includes("위자료") || 
+    kw.includes("휴업손해") || 
+    kw.includes("향후치료비") ||
+    kw.includes("과실비율")
+  ) {
+    return "traffic";
+  }
+  // 9. 보험금 분쟁
+  if (
+    kw.includes("보험금") || 
+    kw.includes("암진단비") || 
+    kw.includes("고지의무") || 
+    kw.includes("면책") || 
+    kw.includes("부지급") || 
+    kw.includes("지급 거절") || 
+    kw.includes("안나옴") || 
+    kw.includes("삭감") || 
+    kw.includes("감액") ||
+    kw.includes("암보험금") ||
+    kw.includes("제자리암") ||
+    kw.includes("상피내암") ||
+    kw.includes("유사암") ||
+    kw.includes("경계성종양")
+  ) {
+    return "insuranceDispute";
+  }
+  // 10. 손해사정사 상담
   if (kw.includes("손해사정사 상담")) {
     return "consultation";
   }
+  // 11. 손해사정사 일반
   if (kw.includes("손해사정사")) {
     return "consultant";
-  }
-  if (kw.includes("교통사고") || kw.includes("합의금")) {
-    return "traffic";
   }
   
   return "general";
