@@ -17,14 +17,14 @@ export default function SitemapContent() {
 
   const allKeywords = getAllKeywords();
 
-  // A. 부산 전체 대표 키워드 상단 노출용 추출 ("부산" 지명으로 생성된 16개 핵심 키워드, 신규 키워드 제외)
+  // A. 부산 전체 대표 키워드 상단 노출용 추출 ("부산" 지명으로 생성된 16개 핵심 키워드)
   const topKeywords = useMemo(() => {
-    return allKeywords.filter(k => k.region === "부산" && k.addedBatch !== "260616");
+    return allKeywords.filter(k => k.region === "부산");
   }, [allKeywords]);
 
-  // B. 구·군 단위 키워드 추출 ("부산"을 제외한 16개 행정 구역, 신규 키워드 제외)
+  // B. 구·군 단위 키워드 추출 ("부산"을 제외한 16개 행정 구역)
   const districtKeywords = useMemo(() => {
-    return allKeywords.filter(k => k.region !== "부산" && k.addedBatch !== "260616");
+    return allKeywords.filter(k => k.region !== "부산");
   }, [allKeywords]);
 
   // 지역 구/군별 키워드 그룹핑
@@ -52,97 +52,6 @@ export default function SitemapContent() {
 
   const toggleRegion = (region: string) => {
     setOpenRegion(openRegion === region ? null : region);
-  };
-
-  // --- 260616 신규 확장 키워드 전용 데이터 및 상태 ---
-  const newKeywords = useMemo(() => {
-    return allKeywords.filter(k => k.addedBatch === "260616");
-  }, [allKeywords]);
-
-  const groupedNewKeywords = useMemo(() => {
-    const grouped: Record<string, KeywordItem[]> = {
-      "부산 문제상황형": [],
-      "김해": [],
-      "양산": [],
-      "울산": [],
-      "창원": [],
-      "생활권 권역": []
-    };
-    newKeywords.forEach(item => {
-      const group = item.groupLabel || "부산 문제상황형";
-      if (!grouped[group]) {
-        grouped[group] = [];
-      }
-      grouped[group].push(item);
-    });
-    return grouped;
-  }, [newKeywords]);
-
-  const newGroupsList = ["부산 문제상황형", "김해", "양산", "울산", "창원", "생활권 권역"];
-
-  const newBasicServicesList = [
-    "손해사정사", "손해사정사 상담", "교통사고 손해사정사", "교통사고 합의금", "보험금 부지급", "후유장해 보험금", "산재 불승인", "산재 장해등급", "12대 중과실",
-    "보험금 지급 거절", "암진단비 거절", "암진단비 손해사정사", "12대 중과실 합의금",
-    "위자료", "휴업손해", "향후치료비", "교통사고", "보험금 안나옴", "보험금 삭감", "보험금 감액"
-  ];
-
-  const newIndustrialServicesList = [
-    "산재 손해사정사", "산재 치료 종결", "직업병 산재", "폐암 산재", "산재 장해진단서", "업무 중 사고 산재", "배달 오토바이 사고 산재", "택배기사 산재",
-    "산재 심사청구", "산재 재심사", "산재 휴업급여", "산재 장해급여", "소음성 난청 산재", "근골격계 질환 산재", "조선소 산재", "항만 산재", "제조업 산재",
-    "건설현장 산재", "지게차 사고 산재", "끼임 사고 산재", "추락 사고 산재"
-  ];
-
-  const [openNewGroups, setOpenNewGroups] = useState<Record<string, boolean>>({
-    "부산 문제상황형": false,
-    "김해": false,
-    "양산": false,
-    "울산": false,
-    "창원": false,
-    "생활권 권역": false
-  });
-
-  const [copied, setCopied] = useState(false);
-
-  const toggleNewGroup = (group: string) => {
-    setOpenNewGroups(prev => ({
-      ...prev,
-      [group]: !prev[group]
-    }));
-  };
-
-  const expandAllNew = () => {
-    setOpenNewGroups({
-      "부산 문제상황형": true,
-      "김해": true,
-      "양산": true,
-      "울산": true,
-      "창원": true,
-      "생활권 권역": true
-    });
-  };
-
-  const collapseAllNew = () => {
-    setOpenNewGroups({
-      "부산 문제상황형": false,
-      "김해": false,
-      "양산": false,
-      "울산": false,
-      "창원": false,
-      "생활권 권역": false
-    });
-  };
-
-  const copyAllNewUrls = () => {
-    // 도메인 주소 포함한 전체 URL 리스트 추출
-    const urls = newKeywords.map(k => `https://www.bssonhaesajeon.co.kr/issue/${k.slug}`).join('\n');
-    navigator.clipboard.writeText(urls)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      })
-      .catch(err => {
-        console.error("Failed to copy URLs: ", err);
-      });
   };
 
   return (
@@ -294,113 +203,6 @@ export default function SitemapContent() {
                               key={item.slug}
                               href={item.url}
                               className="text-xs font-black bg-brand-ivory border border-brand-line/60 text-brand-muted hover:border-brand-gold hover:text-brand-gold hover:bg-white px-3.5 py-2.5 rounded-xl transition-all inline-flex items-center gap-1 hover:-translate-y-0.5 active:scale-95"
-                            >
-                              {item.label}
-                              <ChevronRight className="w-3 h-3 text-brand-line shrink-0" />
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 4.5. 260616 신규 확장 키워드 섹션 (충분한 여백과 구별된 배경 적용) */}
-      <section className="py-16 bg-brand-ivory border-t border-brand-line">
-        <div className="section-container max-w-5xl">
-          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h2 className="text-xl md:text-2xl font-black text-brand-primary mb-3 flex items-center gap-2.5">
-                <MapPin className="w-5 h-5 text-brand-gold animate-pulse" />
-                260616 신규 확장 키워드
-              </h2>
-              <p className="text-brand-muted text-xs md:text-sm leading-relaxed font-semibold break-keep">
-                2026년 6월 16일 추가한 김해·양산·울산·창원 확장 및 문제상황형 키워드 목록입니다.<br />
-                네이버 서치어드바이저 웹페이지 수집 시 신규 URL만 구분하여 확인할 수 있도록 별도 정리했습니다.
-              </p>
-            </div>
-            
-            {/* 상단 편의기능 컨트롤 버튼 */}
-            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-              <button 
-                onClick={expandAllNew}
-                className="px-4 py-2 border border-brand-line hover:border-brand-gold hover:text-brand-gold text-brand-muted bg-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-sm"
-              >
-                신규 키워드 전체 펼치기
-              </button>
-              <button 
-                onClick={collapseAllNew}
-                className="px-4 py-2 border border-brand-line hover:border-brand-gold hover:text-brand-gold text-brand-muted bg-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-sm"
-              >
-                신규 키워드 전체 접기
-              </button>
-              <button 
-                onClick={copyAllNewUrls}
-                className="px-4 py-2 bg-brand-gold hover:bg-brand-lightGold text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md shadow-brand-gold/10"
-              >
-                {copied ? "복사 완료!" : "신규 URL 전체 복사"}
-              </button>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            {newGroupsList.map(groupName => {
-              // 카테고리 필터 매핑
-              const items = groupedNewKeywords[groupName].filter(item => {
-                const matchCategory = activeCategory === "전체" || 
-                  (activeCategory === "부산 지역 상담" && newBasicServicesList.includes(item.service)) ||
-                  (activeCategory === "산재 특화 지역 상담" && newIndustrialServicesList.includes(item.service));
-                const matchSearch = item.label.includes(searchQuery) || item.service.includes(searchQuery);
-                return matchCategory && matchSearch;
-              });
-
-              if (items.length === 0) return null;
-
-              const isOpen = !!openNewGroups[groupName];
-
-              return (
-                <div 
-                  key={groupName} 
-                  className="bg-white border border-brand-line rounded-2xl overflow-hidden transition-all duration-300 shadow-sm"
-                >
-                  <button
-                    onClick={() => toggleNewGroup(groupName)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-brand-line/10 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand-gold" />
-                      <span className="text-[15px] font-black text-brand-primary">
-                        {groupName === "부산 문제상황형" ? "부산 문제상황형 확장 키워드" : `${groupName} 확장 키워드`}
-                      </span>
-                      <span className="text-[10px] font-bold bg-brand-primary/5 text-brand-primary/60 px-2 py-0.5 rounded-full border border-brand-line">
-                        {items.length}개 키워드
-                      </span>
-                    </div>
-                    <div className={cn(
-                      "w-7 h-7 rounded-full bg-brand-ivory flex items-center justify-center border border-brand-line text-brand-primary transition-all duration-300",
-                      isOpen && "rotate-180 bg-brand-gold text-white border-brand-gold"
-                    )}>
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </button>
-
-                  <div className={cn(
-                    "grid transition-all duration-300 ease-in-out bg-brand-ivory/30",
-                    isOpen ? "grid-rows-[1fr] opacity-100 border-t border-brand-line" : "grid-rows-[0fr] opacity-0 pointer-events-none"
-                  )}>
-                    <div className="overflow-hidden">
-                      <div className="p-6">
-                        <div className="flex flex-wrap gap-2.5">
-                          {items.map(item => (
-                            <Link
-                              key={item.slug}
-                              href={item.url}
-                              className="text-xs font-black bg-white border border-brand-line/60 text-brand-muted hover:border-brand-gold hover:text-brand-gold px-3.5 py-2.5 rounded-xl transition-all inline-flex items-center gap-1 hover:-translate-y-0.5 active:scale-95 shadow-sm"
                             >
                               {item.label}
                               <ChevronRight className="w-3 h-3 text-brand-line shrink-0" />

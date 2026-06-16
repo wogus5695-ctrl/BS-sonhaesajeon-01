@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import MainPageContent from "@/components/MainPageContent";
 import { commonFaqs } from "@/lib/faqData";
 import { classifyKeyword, getDKIContent, getDKIIntentData } from "@/lib/dkiUtils";
-import { getAllKeywords } from "@/lib/keywordData";
 import { 
   BASE_URL, 
   BRAND_NAME, 
@@ -37,17 +36,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const type = classifyKeyword(keyword);
   const dki = getDKIContent(keyword, type);
 
-  const allKeywords = getAllKeywords();
-  const matchedItem = allKeywords.find(item => item.slug === params.slug || item.label === keyword);
-
-  const title = matchedItem ? matchedItem.metaTitle : dki.metaTitle;
-  const description = matchedItem ? matchedItem.metaDescription : dki.metaDesc;
-
   // 고유 URL 가리키는 Canonical 및 robots: 'index,follow' 주입
   return {
     metadataBase: new URL(baseUrl),
-    title,
-    description,
+    title: dki.metaTitle,
+    description: dki.metaDesc,
     alternates: {
       canonical: `${baseUrl}/issue/${encodeURIComponent(params.slug)}`,
     },
@@ -56,8 +49,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
       follow: true,
     },
     openGraph: {
-      title,
-      description,
+      title: dki.metaTitle,
+      description: dki.metaDesc,
       type: "article",
       url: `${baseUrl}/issue/${encodeURIComponent(params.slug)}`,
       images: [
@@ -71,8 +64,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: dki.metaTitle,
+      description: dki.metaDesc,
       images: [`${baseUrl}/og-image.png?v=2`],
     },
   };

@@ -1,0 +1,155 @@
+export interface KeywordItem {
+  label: string;
+  slug: string;
+  category: "부산 지역 상담" | "산재 특화 지역 상담";
+  region: string;
+  service: string;
+  intent: string;
+  url: string;
+}
+
+// 1. 부산 17개 자치 구·군 전체 목록
+export const busanRegions = [
+  "부산",
+  "해운대",
+  "부산진구",
+  "동래",
+  "남구",
+  "북구",
+  "사하",
+  "사상",
+  "금정",
+  "연제",
+  "수영",
+  "기장",
+  "강서",
+  "영도",
+  "서구",
+  "동구",
+  "중구"
+];
+
+// 2. 기본 보상 서비스 목록
+export const basicServices = [
+  "손해사정사",
+  "손해사정사 상담",
+  "교통사고 손해사정사",
+  "교통사고 합의금",
+  "보험금 부지급",
+  "후유장해 보험금",
+  "산재 불승인",
+  "산재 장해등급",
+  "12대 중과실",
+  "보험금 지급 거절",
+  "암진단비 거절",
+  "암진단비 손해사정사",
+  "12대 중과실 합의금"
+];
+
+// 3. 중공업 및 물류 지대 등 산재 특화 행정 구역 (8개 지역)
+export const industrialRegions = [
+  "부산",
+  "사하",
+  "사상",
+  "강서",
+  "영도",
+  "동구",
+  "남구",
+  "기장"
+];
+
+// 4. 8가지 산재 및 직업병 특화 서비스 목록
+export const industrialServices = [
+  "산재 손해사정사",
+  "산재 치료 종결",
+  "직업병 산재",
+  "폐암 산재",
+  "산재 장해진단서",
+  "업무 중 사고 산재",
+  "배달 오토바이 사고 산재",
+  "택배기사 산재"
+];
+
+const generatedKeywords: KeywordItem[] = [];
+
+// 지명 변형 정교화 처리
+const getVariantRegion = (region: string): string => {
+  let result = region;
+  if (!region.endsWith("구") && !region.endsWith("군")) {
+    if (region === "부산") {
+      result = "부산";
+    } else if (region === "기장") {
+      result = "기장군";
+    } else {
+      result = region + "구";
+    }
+  }
+
+  // 남구/북구/서구/동구/중구/강서구 에 대해 "부산 " 접두사 추가
+  if (["남구", "북구", "서구", "동구", "중구", "강서구"].includes(result)) {
+    return "부산 " + result;
+  }
+  return result;
+};
+
+const noGuRegions = ["해운대", "동래", "사하", "사상", "금정", "연제", "수영", "기장", "영도"];
+
+// A. 기본 지역 조합 생성
+busanRegions.forEach((region) => {
+  const variants = [getVariantRegion(region)];
+  if (noGuRegions.includes(region)) {
+    variants.push(region); // '구'/'군'이 생략된 버전 추가
+  }
+
+  variants.forEach((variant) => {
+    basicServices.forEach((service) => {
+      const label = `${variant} ${service}`;
+      const slug = label.trim().replace(/\s+/g, '-');
+      generatedKeywords.push({
+        label,
+        slug,
+        category: "부산 지역 상담",
+        region: variant,
+        service,
+        intent: "지역 상담",
+        url: `/issue/${encodeURIComponent(slug)}`
+      });
+    });
+  });
+});
+
+// B. 산재 특화 조합 생성 (8개 특화 지역 * 8개 산재 서비스)
+industrialRegions.forEach((region) => {
+  const variants = [getVariantRegion(region)];
+  if (noGuRegions.includes(region)) {
+    variants.push(region); // '구'/'군'이 생략된 버전 추가
+  }
+
+  variants.forEach((variant) => {
+    industrialServices.forEach((service) => {
+      const label = `${variant} ${service}`;
+      const slug = label.trim().replace(/\s+/g, '-');
+      
+      // 기본조합과 중복 제거 방지
+      const isDuplicate = generatedKeywords.some(k => k.label === label);
+      if (!isDuplicate) {
+        generatedKeywords.push({
+          label,
+          slug,
+          category: "산재 특화 지역 상담",
+          region: variant,
+          service,
+          intent: "지역 상담",
+          url: `/issue/${encodeURIComponent(slug)}`
+        });
+      }
+    });
+  });
+});
+
+export const busanKeywordsList = generatedKeywords;
+export const totalBusanKeywordsCount = generatedKeywords.length;
+
+export const getAllKeywords = (): KeywordItem[] => {
+  return generatedKeywords;
+};
