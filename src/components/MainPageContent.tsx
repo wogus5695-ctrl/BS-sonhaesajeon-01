@@ -208,6 +208,25 @@ export default function MainPageContent({ k }: { k?: string }) {
       }
     });
 
+    const gyeongnamRegions = ["김해", "양산", "울산", "창원", "진주", "거제", "통영", "사천", "밀양", "함안", "창녕", "고성", "남해", "하동", "산청", "함양", "거창", "합천"];
+    gyeongnamRegions.forEach(r => {
+      regions.push(r);
+      regions.push(r + "시");
+      regions.push(r + "군");
+    });
+
+    // 창원 행정구 추가
+    regions.push("창원 의창구", "창원 성산구", "창원 마산합포구", "창원 마산회원구", "창원 진해구");
+
+    // 경남 생활권 추가
+    regions.push(
+      "서김해", "동김해", "장유", "진영", 
+      "물금", "웅상", "덕계", "서창", 
+      "마산", "진해", 
+      "고현", "옥포", "장평", 
+      "진주혁신도시", "삼천포", "칠원", "남지"
+    );
+
     const sortedRegions = regions.sort((a, b) => b.length - a.length);
 
     for (const r of sortedRegions) {

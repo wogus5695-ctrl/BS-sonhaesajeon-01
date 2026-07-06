@@ -19,12 +19,12 @@ export default function SitemapContent() {
 
   // A. 부산 전체 대표 키워드 상단 노출용 추출 ("부산" 지명으로 생성된 16개 핵심 키워드, 신규 키워드 제외)
   const topKeywords = useMemo(() => {
-    return allKeywords.filter(k => k.region === "부산" && k.addedBatch !== "260616");
+    return allKeywords.filter(k => k.region === "부산" && k.addedBatch !== "260616" && k.addedBatch !== "260616-gyeongnam");
   }, [allKeywords]);
 
   // B. 구·군 단위 키워드 추출 ("부산"을 제외한 16개 행정 구역, 신규 키워드 제외)
   const districtKeywords = useMemo(() => {
-    return allKeywords.filter(k => k.region !== "부산" && k.addedBatch !== "260616");
+    return allKeywords.filter(k => k.region !== "부산" && k.addedBatch !== "260616" && k.addedBatch !== "260616-gyeongnam");
   }, [allKeywords]);
 
   // 지역 구/군별 키워드 그룹핑
@@ -142,6 +142,81 @@ export default function SitemapContent() {
       })
       .catch(err => {
         console.error("Failed to copy URLs: ", err);
+      });
+  };
+
+  // --- 260616-gyeongnam 신규 경남 확장 키워드 전용 데이터 및 상태 ---
+  const gyeongnamKeywords = useMemo(() => {
+    return allKeywords.filter(k => k.addedBatch === "260616-gyeongnam");
+  }, [allKeywords]);
+
+  const groupedGyeongnamKeywords = useMemo(() => {
+    const grouped: Record<string, KeywordItem[]> = {
+      "경남 시·군 대표 키워드": [],
+      "창원 행정구 키워드": [],
+      "경남 산업·산재 특화 키워드": [],
+      "경남 생활권 테스트 키워드": []
+    };
+    gyeongnamKeywords.forEach(item => {
+      const group = item.groupLabel || "경남 시·군 대표 키워드";
+      if (!grouped[group]) {
+        grouped[group] = [];
+      }
+      grouped[group].push(item);
+    });
+    return grouped;
+  }, [gyeongnamKeywords]);
+
+  const gyeongnamGroupsList = [
+    "경남 시·군 대표 키워드",
+    "창원 행정구 키워드",
+    "경남 산업·산재 특화 키워드",
+    "경남 생활권 테스트 키워드"
+  ];
+
+  const [openGyeongnamGroups, setOpenGyeongnamGroups] = useState<Record<string, boolean>>({
+    "경남 시·군 대표 키워드": false,
+    "창원 행정구 키워드": false,
+    "경남 산업·산재 특화 키워드": false,
+    "경남 생활권 테스트 키워드": false
+  });
+
+  const [gyeongnamCopied, setGyeongnamCopied] = useState(false);
+
+  const toggleGyeongnamGroup = (group: string) => {
+    setOpenGyeongnamGroups(prev => ({
+      ...prev,
+      [group]: !prev[group]
+    }));
+  };
+
+  const expandAllGyeongnam = () => {
+    setOpenGyeongnamGroups({
+      "경남 시·군 대표 키워드": true,
+      "창원 행정구 키워드": true,
+      "경남 산업·산재 특화 키워드": true,
+      "경남 생활권 테스트 키워드": true
+    });
+  };
+
+  const collapseAllGyeongnam = () => {
+    setOpenGyeongnamGroups({
+      "경남 시·군 대표 키워드": false,
+      "창원 행정구 키워드": false,
+      "경남 산업·산재 특화 키워드": false,
+      "경남 생활권 테스트 키워드": false
+    });
+  };
+
+  const copyAllGyeongnamUrls = () => {
+    const urls = gyeongnamKeywords.map(k => `https://www.bssonhaesajeon.co.kr/issue/${k.slug}`).join('\n');
+    navigator.clipboard.writeText(urls)
+      .then(() => {
+        setGyeongnamCopied(true);
+        setTimeout(() => setGyeongnamCopied(false), 2000);
+      })
+      .catch(err => {
+        console.error("Failed to copy Gyeongnam URLs: ", err);
       });
   };
 
@@ -401,6 +476,109 @@ export default function SitemapContent() {
                               key={item.slug}
                               href={item.url}
                               className="text-xs font-black bg-white border border-brand-line/60 text-brand-muted hover:border-brand-gold hover:text-brand-gold px-3.5 py-2.5 rounded-xl transition-all inline-flex items-center gap-1 hover:-translate-y-0.5 active:scale-95 shadow-sm"
+                            >
+                              {item.label}
+                              <ChevronRight className="w-3 h-3 text-brand-line shrink-0" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 4.6. 260616 경남권 신규 확장 키워드 섹션 */}
+      <section className="py-16 bg-white border-t border-brand-line">
+        <div className="section-container max-w-5xl">
+          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h2 className="text-xl md:text-2xl font-black text-brand-primary mb-3 flex items-center gap-2.5">
+                <MapPin className="w-5 h-5 text-brand-gold animate-pulse" />
+                260616 경남권 신규 확장 키워드
+              </h2>
+              <p className="text-brand-muted text-xs md:text-sm leading-relaxed font-semibold break-keep">
+                2026년 6월 16일 추가한 경남권 시·군, 행정구, 생활권 기반 손해사정 키워드 목록입니다.<br />
+                네이버 서치어드바이저 웹페이지 수집 시 신규 URL만 구분하여 확인할 수 있도록 별도 정리했습니다.
+              </p>
+            </div>
+            
+            {/* 상단 편의기능 컨트롤 버튼 */}
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+              <button 
+                onClick={expandAllGyeongnam}
+                className="px-4 py-2 border border-brand-line hover:border-brand-gold hover:text-brand-gold text-brand-muted bg-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-sm"
+              >
+                신규 키워드 전체 펼치기
+              </button>
+              <button 
+                onClick={collapseAllGyeongnam}
+                className="px-4 py-2 border border-brand-line hover:border-brand-gold hover:text-brand-gold text-brand-muted bg-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-sm"
+              >
+                신규 키워드 전체 접기
+              </button>
+              <button 
+                onClick={copyAllGyeongnamUrls}
+                className="px-4 py-2 bg-brand-gold hover:bg-brand-lightGold text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md shadow-brand-gold/10"
+              >
+                {gyeongnamCopied ? "복사 완료!" : "경남 신규 URL 전체 복사"}
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {gyeongnamGroupsList.map(groupName => {
+              const items = groupedGyeongnamKeywords[groupName].filter(item => {
+                const matchSearch = item.label.includes(searchQuery) || item.service.includes(searchQuery);
+                return matchSearch;
+              });
+
+              if (items.length === 0) return null;
+
+              const isOpen = !!openGyeongnamGroups[groupName];
+
+              return (
+                <div 
+                  key={groupName} 
+                  className="bg-brand-ivory border border-brand-line rounded-2xl overflow-hidden transition-all duration-300 shadow-sm"
+                >
+                  <button
+                    onClick={() => toggleGyeongnamGroup(groupName)}
+                    className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-brand-line/10 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand-gold" />
+                      <span className="text-[15px] font-black text-brand-primary">
+                        {groupName}
+                      </span>
+                      <span className="text-[10px] font-bold bg-brand-primary/5 text-brand-primary/60 px-2 py-0.5 rounded-full border border-brand-line">
+                        {items.length}개 키워드
+                      </span>
+                    </div>
+                    <div className={cn(
+                      "w-7 h-7 rounded-full bg-white flex items-center justify-center border border-brand-line text-brand-primary transition-all duration-300",
+                      isOpen && "rotate-180 bg-brand-gold text-white border-brand-gold"
+                    )}>
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
+                  </button>
+
+                  <div className={cn(
+                    "grid transition-all duration-300 ease-in-out bg-white",
+                    isOpen ? "grid-rows-[1fr] opacity-100 border-t border-brand-line" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+                  )}>
+                    <div className="overflow-hidden">
+                      <div className="p-6">
+                        <div className="flex flex-wrap gap-2.5">
+                          {items.map(item => (
+                            <Link
+                              key={item.slug}
+                              href={item.url}
+                              className="text-xs font-black bg-brand-ivory border border-brand-line/60 text-brand-muted hover:border-brand-gold hover:text-brand-gold px-3.5 py-2.5 rounded-xl transition-all inline-flex items-center gap-1 hover:-translate-y-0.5 active:scale-95 shadow-sm"
                             >
                               {item.label}
                               <ChevronRight className="w-3 h-3 text-brand-line shrink-0" />

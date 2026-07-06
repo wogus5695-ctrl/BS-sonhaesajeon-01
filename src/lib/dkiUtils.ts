@@ -70,6 +70,25 @@ export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
     }
   });
 
+  const gyeongnamRegions = ["김해", "양산", "울산", "창원", "진주", "거제", "통영", "사천", "밀양", "함안", "창녕", "고성", "남해", "하동", "산청", "함양", "거창", "합천"];
+  gyeongnamRegions.forEach(r => {
+    regions.push(r);
+    regions.push(r + "시");
+    regions.push(r + "군");
+  });
+
+  // 창원 행정구 추가
+  regions.push("창원 의창구", "창원 성산구", "창원 마산합포구", "창원 마산회원구", "창원 진해구");
+
+  // 경남 생활권 추가
+  regions.push(
+    "서김해", "동김해", "장유", "진영", 
+    "물금", "웅상", "덕계", "서창", 
+    "마산", "진해", 
+    "고현", "옥포", "장평", 
+    "진주혁신도시", "삼천포", "칠원", "남지"
+  );
+
   const sortedRegions = regions.sort((a, b) => b.length - a.length);
 
   let matchedRegion = "";
@@ -104,13 +123,13 @@ export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
     // Subtitle 매핑 규정 준수
     let heroSubtitle = "";
     if (type === "traffic") {
-      heroSubtitle = `${matchedRegion} 지역의 교통사고 합의금, 후유장해, 과실비율, 향후치료비, 휴업손해 문제를 사고자료와 의무기록을 기준으로 검토합니다.`;
+      heroSubtitle = `${matchedRegion} 지역의 교통사고 합의금, 후유장해, 과실비율, 향후치료비, 휴업손해 관련 보상 검토를 사고자료와 의무기록을 기준으로 진행합니다.`;
     } else if (type === "insurance") {
-      heroSubtitle = `${matchedRegion} 지역의 보험금 부지급, 후유장해 보험금, 보험사 의료자문, 고지의무 위반 문제를 약관과 의무기록, 보험사 안내문을 기준으로 검토합니다.`;
+      heroSubtitle = `${matchedRegion} 지역의 보험금 부지급, 후유장해 보험금, 보험사 의료자문, 고지의무 위반 관련 보상 검토를 약관과 의무기록, 보험사 안내문을 기준으로 진행합니다.`;
     } else if (type === "industrial") {
-      heroSubtitle = `${matchedRegion} 지역의 산재 불승인, 장해등급, 치료 종결, 직업병 산재 문제는 재해경위, 의무기록, 업무관련성 자료를 기준으로 검토합니다.`;
+      heroSubtitle = `${matchedRegion} 지역의 산재 불승인, 장해등급, 치료 종결, 직업병 산재 관련 보상 검토는 재해경위, 의무기록, 업무관련성 자료를 기준으로 진행합니다.`;
     } else {
-      heroSubtitle = `${matchedRegion} 지역의 ${service} 관련 문제는 사고자료, 의무기록, 보험약관, 산재 결정서 등 개별 자료를 기준으로 확인해야 합니다.`;
+      heroSubtitle = `${matchedRegion} 지역의 ${service} 관련 보상 검토는 사고자료, 의무기록, 보험약관, 산재 결정서 등 개별 자료를 기준으로 확인해야 합니다.`;
     }
 
     // CTA 예시 적용
@@ -119,19 +138,19 @@ export const getDKIContent = (keyword: string, type: DKIType): DKIContent => {
     const combined = `${matchedRegion} ${service}`.trim();
     const titleKeyword = combined.endsWith("상담") ? combined : `${combined} 상담`;
     const metaTitle = `${titleKeyword} | 든든손해사정`;
-    const metaDesc = `${combined} 관련 보험금, 산재, 후유장해, 교통사고 보상 쟁점을 자료 기준으로 검토합니다.`;
+    const metaDesc = `${combined} 관련 보험금, 산재, 후유장해, 교통사고 보상 검토 방향을 자료 기준으로 확인합니다.`;
 
     return { type, heroTitle, heroSubtitle, ctaText, metaTitle, metaDesc };
   }
   
   // 지명 매칭이 안 된 순수 키워드 대상 기본 템플릿
   let heroTitle = `<span class="text-brand-accent font-bold">${k}</span> <span class="text-white">상담이 필요하신가요?</span>`;
-  let heroSubtitle = `보상 문제는 사고자료, 의무기록, 보험약관 등 세부적인 개별 자료를 기준으로 검토하고 확인하는 과정이 필요합니다.`;
+  let heroSubtitle = `보상 검토는 사고자료, 의무기록, 보험약관 등 세부적인 개별 자료를 기준으로 분석하는 과정이 필요합니다.`;
   let ctaText = "무료 사건 분석 의뢰";
 
   const titleKeyword = k.endsWith("상담") ? k : `${k} 상담`;
   const metaTitle = `${titleKeyword} | 든든손해사정`;
-  const metaDesc = `${k} 관련 보험금, 산재, 후유장해, 교통사고 보상 쟁점을 자료 기준으로 검토합니다.`;
+  const metaDesc = `${k} 관련 보험금, 산재, 후유장해, 교통사고 보상 검토 방향을 자료 기준으로 확인합니다.`;
 
   return { type, heroTitle, heroSubtitle, ctaText, metaTitle, metaDesc };
 };
@@ -175,7 +194,8 @@ export const getIntentGroup = (k: string): string => {
     kw.includes("건설현장") || 
     kw.includes("지게차") || 
     kw.includes("끼임") || 
-    kw.includes("추락")
+    kw.includes("추락") ||
+    kw.includes("물류센터")
   ) {
     return "workerAccident";
   }
@@ -187,7 +207,9 @@ export const getIntentGroup = (k: string): string => {
     kw.includes("근골격계") || 
     kw.includes("조선소") || 
     kw.includes("항만") || 
-    kw.includes("제조업")
+    kw.includes("제조업") ||
+    kw.includes("공장") ||
+    kw.includes("조선업")
   ) {
     return "industrialDisease";
   }
@@ -290,7 +312,7 @@ export const getDKIIntentData = (k: string): DKIIntentData => {
       h1Part1 = `${keyword},`;
       h1Part2 = "보험금 검토가 필요하다면";
       heroDescription = `${keyword} 관련 전문 분석 및 의무기록 약관 대조를 통해 보상 가능성을 검토합니다.`;
-      sectionDescription = `${keyword} 검토를 진행하기 전, 사건 유형(교통사고·산재·보험금 분쟁)을 분류하여 필요한 자료를 확인해야 합니다.`;
+      sectionDescription = `${keyword} 상담은 사고 경위, 의무기록, 약관, 보험사 안내 내용을 기준으로 검토 방향을 확인합니다.`;
       faqQuestion = `${keyword} 선임 및 상담 시 어떤 자료를 준비해야 하나요?`;
       ctaSentence = `${keyword} 자문이 필요하시다면 보유하신 서류를 바탕으로 가능성을 먼저 확인해보세요.`;
       break;
@@ -313,7 +335,7 @@ export const getDKIIntentData = (k: string): DKIIntentData => {
     case "seriousTraffic":
       h1Part1 = `${keyword} 사고,`;
       h1Part2 = "과실 판단부터 확인하세요";
-      heroDescription = `${keyword} 관련 보상 문제를 사고 자료와 의무기록 기준으로 정밀하게 검토합니다.`;
+      heroDescription = `${keyword} 관련 보상 검토를 사고 자료와 의무기록 기준으로 정밀하게 진행합니다.`;
       sectionDescription = `${keyword} 사고의 경우 일반 과실 사고와 달리 형사 합의 및 민사 배상 범위에 대해 면밀한 검토가 필요합니다.`;
       faqQuestion = `${keyword} 사고에 대해 보상을 검토할 때 어떤 서류를 준비해야 하나요?`;
       ctaSentence = `${keyword}에 따른 형사 및 민사 보상 범위가 걱정되신다면 과실 비율과 자료를 기준으로 검토해 드립니다.`;
@@ -330,7 +352,7 @@ export const getDKIIntentData = (k: string): DKIIntentData => {
       h1Part1 = `${keyword},`;
       h1Part2 = "업무관련성 검토가 필요하다면";
       heroDescription = `${keyword} 승인을 위한 근무 환경 분석과 의학 자료 대조를 면밀히 분석합니다.`;
-      sectionDescription = `${keyword}은 업무와 질병 간의 의학적 인과관계를 입증해야 하므로 의무기록과 현장 자료 분석이 필수적입니다.`;
+      sectionDescription = `${keyword} 사안은 작업환경, 사고 경위, 의무기록, 업무관련성 자료를 기준으로 검토합니다.`;
       faqQuestion = `${keyword} 신청 및 승인을 위해 어떤 인과관계 입증 자료가 필요한가요?`;
       ctaSentence = `${keyword} 인정 기준 및 신청 절차가 막막하시다면 근무 경력과 의무기록 자료로 분석해 드립니다.`;
       break;
@@ -338,7 +360,7 @@ export const getDKIIntentData = (k: string): DKIIntentData => {
       h1Part1 = `${keyword},`;
       h1Part2 = "제출 전 검토가 필요하다면";
       heroDescription = `${keyword} 발급 전 적정 장해율이 소견서에 충분히 반영되었는지 서류를 대조합니다.`;
-      sectionDescription = `${keyword} 제출 시 상태보다 낮게 평가된 장해등급을 예방하기 위해 치료 기록과 장해 소견을 사전 분석해야 합니다.`;
+      sectionDescription = `${keyword} 관련 검토는 치료 경과, 장해 상태, 의무기록, 장해평가 기준을 함께 확인해야 합니다.`;
       faqQuestion = `${keyword}을 발급받거나 제출하기 전에 확인해야 할 서류는 무엇인가요?`;
       ctaSentence = `${keyword} 발급이나 장해 평가 신청이 조심스러우시다면 사전 진단서 검토를 요청해보세요.`;
       break;
@@ -370,7 +392,7 @@ export const getDKIIntentData = (k: string): DKIIntentData => {
       h1Part1 = `${keyword},`;
       h1Part2 = "업무관련성부터 확인하세요";
       heroDescription = `${keyword} 신청에 필요한 업무 수행 입증 자료와 사고 경위를 검토합니다.`;
-      sectionDescription = `${keyword} 관련하여 현장의 끼임, 추락, 지게차 사고 등 업무 중 재해는 장해 판정과 보상 범위 검토가 중요합니다.`;
+      sectionDescription = `${keyword}는 사고 발생 경위, 업무 수행 여부, 치료 기록, 산재 신청 자료를 기준으로 검토합니다.`;
       faqQuestion = `${keyword} 재해 승인 및 장해 평가를 위해 필요한 서류는 무엇인가요?`;
       ctaSentence = `${keyword} 관련 장해 급여 및 보상 신청이 고민되신다면 사고 자료와 함께 분석을 의뢰해 보세요.`
       break;
