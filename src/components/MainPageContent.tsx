@@ -308,16 +308,9 @@ export default function MainPageContent({ k }: { k?: string }) {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 mb-10 w-full max-w-md mx-auto">
               <a 
                 href="#contact" 
-                className="px-8 py-4 bg-brand-gold hover:bg-brand-lightGold text-white font-bold text-base rounded-xl shadow-lg shadow-brand-gold/25 active:scale-[0.98] transition-all text-center flex items-center justify-center"
+                className="px-8 py-4 bg-brand-gold hover:bg-brand-lightGold text-white font-bold text-base rounded-xl shadow-lg shadow-brand-gold/25 active:scale-[0.98] transition-all text-center flex items-center justify-center w-full sm:w-auto"
               >
                 무료 서류 검토 요청
-              </a>
-              <a 
-                href={`tel:${PHONE_NUMBER}`} 
-                className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-base active:scale-[0.98] transition-all text-center"
-              >
-                <Phone className="w-4 h-4 text-brand-lightGold shrink-0" />
-                <span>전화로 바로 상담</span>
               </a>
             </div>
 

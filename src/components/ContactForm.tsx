@@ -118,7 +118,7 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
       });
     } catch (error) {
       console.error('API 송출 중 오류:', error);
-      alert('접수 중 오류가 발생했습니다. 전화 상담 또는 카카오톡 상담을 이용해주세요.');
+      alert('접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     } finally {
       setIsSubmitting(false);
     }
@@ -346,13 +346,6 @@ export default function ContactForm({ keyword }: { keyword?: string }) {
         >
           {isSubmitting ? "접수 중..." : "보상 서류 검토 요청하기"}
         </button>
-
-        <a 
-          href={`tel:${PHONE_NUMBER}`} 
-          className="flex items-center justify-center gap-2 w-full py-3.5 border-2 border-brand-primary text-brand-primary font-black text-base rounded-xl hover:bg-brand-primary/5 transition-all active:scale-95"
-        >
-          <Phone className="w-4 h-4 text-brand-gold" /> 전화로 바로 상담하기
-        </a>
       </div>
     </form>
   );

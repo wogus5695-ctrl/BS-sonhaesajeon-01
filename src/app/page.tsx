@@ -95,7 +95,7 @@ export default function Page({ searchParams }: PageProps) {
     "image": `${baseUrl}/og-image.png?v=2`,
     "@id": baseUrl,
     "url": baseUrl,
-    "telephone": PHONE_NUMBER,
+    ...(PHONE_NUMBER ? { "telephone": PHONE_NUMBER } : {}),
     "address": {
       "@type": "PostalAddress",
       "streetAddress": OFFICE_ADDRESS,

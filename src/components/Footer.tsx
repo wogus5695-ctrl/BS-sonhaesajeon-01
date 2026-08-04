@@ -71,10 +71,6 @@ export default function Footer() {
             <h4 className="text-white font-black text-base border-l-2 border-brand-gold pl-3 tracking-tight">상담 센터 안내</h4>
             <ul className="space-y-4 text-sm text-brand-ivory/70">
               <li>
-                <span className="block text-[11px] text-white/40 font-bold uppercase tracking-wider mb-1">빠른 자문 대표 전화</span> 
-                <span className="text-white font-black text-lg">{PHONE_NUMBER}</span>
-              </li>
-              <li>
                 <span className="block text-[11px] text-white/40 font-bold uppercase tracking-wider mb-1">상담 운영 시간</span> 
                 {CALL_CENTER_HOURS}
               </li>

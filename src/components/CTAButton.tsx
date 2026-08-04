@@ -13,23 +13,15 @@ interface CTAButtonProps {
 export default function CTAButton({ 
   className, 
   variant = 'primary', 
-  text = '무료 전화상담 신청',
-  phone = PHONE_NUMBER,
+  text = '무료 사전분석 신청',
   onClick
 }: CTAButtonProps) {
   if (variant === 'sticky') {
     return (
       <div className="fixed bottom-0 left-0 z-50 w-full flex bg-white border-t border-brand-line md:hidden animate-fade-up shadow-[0_-8px_25px_rgba(15,39,66,0.1)]">
         <a 
-          href={`tel:${phone}`}
-          className="flex-1 flex flex-col items-center justify-center gap-1.5 py-4 bg-white text-brand-primary active:bg-brand-ivory transition-colors border-r border-brand-line"
-        >
-          <Phone className="w-5 h-5 text-brand-gold animate-pulse" />
-          <span className="text-[11px] font-black tracking-tight">전화 상담</span>
-        </a>
-        <a 
           href="#contact"
-          className="flex-[1.6] flex items-center justify-center gap-2 py-4 bg-brand-gold text-white font-black text-lg active:bg-brand-gold/90 transition-all shadow-inner"
+          className="w-full flex items-center justify-center gap-2 py-4 bg-brand-gold text-white font-black text-lg active:bg-brand-gold/90 transition-all shadow-inner"
         >
           <FileText className="w-5 h-5" />
           사전 분석 접수
@@ -42,14 +34,16 @@ export default function CTAButton({
     ? 'bg-brand-gold hover:bg-brand-gold/90 text-white font-black text-center inline-flex items-center justify-center rounded-xl shadow-md hover:-translate-y-0.5 active:scale-95 transition-all duration-300' 
     : 'border-2 border-brand-gold text-brand-gold hover:bg-brand-gold/5 font-black text-center inline-flex items-center justify-center rounded-xl hover:-translate-y-0.5 active:scale-95 transition-all duration-300';
 
+  const displayText = text === '무료 전화상담 신청' ? '무료 사전분석 신청' : text;
+
   return (
     <a 
-      href={`tel:${phone}`}
+      href="#contact"
       className={cn(baseStyles, "gap-2.5", className)}
       onClick={onClick}
     >
-      <Phone className="w-4 h-4" />
-      {text}
+      <FileText className="w-4 h-4" />
+      {displayText}
     </a>
   );
 }
